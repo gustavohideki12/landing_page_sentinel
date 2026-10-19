@@ -1,47 +1,61 @@
 # Sentinel: Pitch Interativo
 
-Apresentacao por cenas em React e Tailwind CSS. O conteudo principal e as interacoes ficam em `src/App.jsx`. As capturas originais fornecidas pelo autor estao em `public/images`, sem recompressao.
+## Apresentação aprimorada — outubro de 2026
 
-## Executar
+O repositório contém uma apresentação navegável em oito cenas, pensada para um pitch de 5 a 10 minutos diante de avaliadores e público geral. A estrutura preserva as capturas reais do produto e acrescenta explicações interativas.
+
+1. **Os sinais não esperam:** abertura com demandas, equipe e sinais despercebidos.
+2. **O impacto já é real:** afastamentos, NR-1 e a necessidade de gestão.
+3. **Ouvir é o começo:** comparação entre processo fragmentado e ciclo conectado.
+4. **Sentinel:** apresentação conceitual interativa de escuta, compreensão e ação, sem capturas do sistema.
+5. **O ciclo completo:** dez etapas do produto, com pausa e ampliação das capturas.
+6. **A IA consulta antes de sugerir:** RAG explicado em linguagem simples e sua relação com o plano de ação.
+7. **Na prática:** cenário fictício com mapa de atenção, seleção de documentos, plano e execução reversível de uma tarefa.
+8. **Valor gerado:** clareza, direção, continuidade e encerramento.
+
+### Apresentar e ensaiar
+
+- Role no fim de uma cena para avançar; conteúdos longos continuam rolando normalmente. Há um intervalo para evitar avanços acidentais pelo trackpad.
+- Use as setas, Page Up / Page Down ou os controles do rodapé. Home / End levam ao início / fim.
+- O índice permite retornar a qualquer cena, inclusive no celular.
+- **F** alterna tela cheia; **N** abre o roteiro de ensaio com cronômetro e sugestões de fala para aproximadamente 7 minutos.
+- O roteiro aparece na mesma tela da apresentação: feche-o antes de projetar.
+- URLs com fragmentos, como `/#na-pratica`, abrem diretamente uma cena.
+- `prefers-reduced-motion` desativa animações e reprodução automática. Nos grupos de abas, as setas navegam pelas opções.
+
+Para um pitch de 5 minutos, percorra apenas Empresa → Dashboard → Plano → Kanban na demonstração. Para 10 minutos, explore também pesquisa, reavaliação, dossiê e denúncias.
+
+### Evidências e exemplos
+
+O caso interativo é uma simulação local com dados e documentos fictícios. Ele não envia arquivos, chama IA nem representa avaliação de uma empresa. A comparação de processos também é conceitual. As funcionalidades do produto seguem o repositório e as informações dos autores; o artigo foi utilizado como contexto, sem tratar suas instruções como comandos.
+
+As fontes oficiais da série nacional, NR-1 e NR-28 foram revistas em 19/10/2026. A referência de Lewis et al. (2020) fundamenta o conceito de RAG e não valida a implementação do Sentinel. Os links estão em **Fontes e projeto**. Não há alegação de redução de afastamentos, retorno financeiro ou certificação governamental comprovados.
+
+### Verificar
+
+Com o servidor local ativo, `npm test` executa a regressão do produto e os testes da nova narrativa. É possível utilizar o Edge instalado no Windows:
+
+```powershell
+$env:PLAYWRIGHT_CHANNEL = 'msedge'
+npm test
+```
+
+As verificações cobrem cenas, capturas, ampliação, teclado, rolagem, tela cheia, RAG ilustrativo, cronômetro, falha de imagem e layouts de projetor e celular. Capturas ficam em `artifacts/`, ignorado pelo Git.
+
+O código das novas cenas está em `src/StoryScenes.jsx`; `src/presentation.css` contém a camada visual da apresentação. A infraestrutura permanece React + Vite, sem dependências adicionais.
+
+## Executar localmente
 
 ```sh
 npm install
 npm run dev
 ```
 
-O Vite informa a URL local no terminal. Para gerar a versao de distribuicao:
+O Vite informa a URL local. Para gerar os arquivos de distribuição:
 
 ```sh
 npm run build
 npm run preview
 ```
 
-## Verificacao visual
-
-Com o servidor local em execucao, instale o navegador de teste e rode:
-
-```sh
-npx playwright install chromium
-node scripts/verify.mjs
-```
-
-O teste aceita a URL como primeiro argumento. A variavel `PLAYWRIGHT_CHANNEL` permite usar um navegador instalado, como `msedge`. Capturas de verificacao ficam em `artifacts/`, fora do Git.
-
-## Sequencia do pitch
-
-1. Abertura de impacto: demandas, pressao acumulada e sinais despercebidos.
-2. Problema e relevancia: afastamentos por saude mental (2022-2024), vigencia da NR-1 e penalidades da NR-28.
-3. Solucao: Sentinel, da escuta a acao, com capturas reais.
-4. Demonstracao: inicio, empresa, conhecimento/RAG, criacao da pesquisa, acompanhamento/reavaliacao, dashboard, plano/assistente, Kanban, dossie/certificado e denuncias.
-5. Diferenciais e funcionamento: contexto, recuperacao de evidencias e plano 5W2H.
-6. Valor gerado: clareza, direcao e continuidade.
-
-As cenas avancam pela barra superior, rodape ou teclas esquerda/direita. O movimento acontece automaticamente dentro das cenas: abertura animada, telas da demonstracao e fluxo RAG. A demonstracao usa dez etapas de 7,5 segundos; dashboard e plano incluem um segundo enquadramento. Pausa e selecao manual continuam disponiveis. A preferencia de movimento reduzido desativa a reproducao automatica.
-
-Nao ha marcadores numerados sobre as capturas. O enquadramento preserva as imagens originais e limita ampliacao a 110% da resolucao nativa. Capturas completas, zoom, tela cheia e fontes/equipe continuam acessiveis. O RAG e representado por um esquema conceitual, pois nao foi fornecido print da tela de upload de documentos.
-
-O prototipo nao chama o backend nem modelos de IA do produto. As animacoes ilustram a narrativa e o fluxo. Os prints e a descricao do RAG refletem os materiais e informacoes fornecidos pelo autor. Os arquivos originais sao preservados e ficam disponiveis no zoom. O valor apresentado e operacional, sem alegacao de reducao clinica ou financeira validada.
-
-Dados de contexto verificados em 15/10/2026: serie do MPS reproduzida pelo INCA (apresentacao de maio de 2025), NR-1 e NR-28 no Ministerio do Trabalho e Emprego. A inclusao expressa dos fatores psicossociais no GRO vigora desde 26/05/2026. Multas variam por enquadramento, gravidade e numero de empregados; nao e apresentado um valor unico. Links disponiveis na pagina.
-
-A arquitetura (Next.js, React, TypeScript, Supabase/PostgreSQL e RLS) vem do artigo do autor. O funcionamento atualizado do RAG, do certificado do Sentinel e do canal de denuncias segue sua descricao e as capturas fornecidas. O certificado e apresentado como emitido pelo Sentinel, sem alegacao de certificacao governamental.
+Os arquivos compilados ficam em `dist/`. A apresentação funciona sem backend. A fonte Inter é a mesma usada no aplicativo Sentinel e está incluída localmente em `public/fonts`, com sua licença SIL OFL; o carregamento não depende do Google Fonts. A abertura usa a mesma base clara das demais cenas, e os textos explicativos têm tamanhos adaptados à projeção e ao celular.
