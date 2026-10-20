@@ -2,16 +2,18 @@
 
 ## Apresentação aprimorada — outubro de 2026
 
-O repositório contém uma apresentação navegável em oito cenas, pensada para um pitch de 5 a 10 minutos diante de avaliadores e público geral. A estrutura preserva as capturas reais do produto e acrescenta explicações interativas.
+O repositório contém uma apresentação navegável em dez cenas, pensada para um pitch de 7 minutos diante de avaliadores e público geral. Depois do problema e da proposta, o produto aparece na ordem em que funciona: primeiro a escuta, depois a base que a IA consulta e só então o plano gerado.
 
 1. **Os sinais não esperam:** abertura com demandas, equipe e sinais despercebidos.
 2. **O impacto já é real:** afastamentos, NR-1 e a necessidade de gestão.
 3. **Ouvir é o começo:** comparação entre processo fragmentado e ciclo conectado.
-4. **Sentinel:** apresentação conceitual interativa de escuta, compreensão e ação, sem capturas do sistema.
-5. **O ciclo completo:** dez etapas do produto, com pausa e ampliação das capturas.
-6. **A IA consulta antes de sugerir:** RAG explicado em linguagem simples e sua relação com o plano de ação.
-7. **Na prática:** um único caso do setor Contábil, baseado nas capturas fornecidas: resultado da pesquisa → contexto da empresa → plano de pausas fixas → execução e reaplicação do COPSOQ II. Botões permitem abrir os prints de referência.
-8. **Valor gerado:** clareza, direção, continuidade e encerramento.
+4. **Sentinel:** escuta, compreensão e ação, sem capturas do sistema.
+5. **O ciclo:** ciclo, questionários, dimensões e anonimato, dashboard e dossiê NR-1, sem falar de planos.
+6. **A base:** perfil da empresa, documentos (RAG), histórico de ações e base científica, com o pipeline de geração.
+7. **O plano:** plano real da Ápice com as fontes F1 a F6, a memória do que já falhou e o chat do plano.
+8. **Aprendizado:** aprovação, Kanban, avaliação de eficácia e medição na próxima pesquisa (simulação local).
+9. **Valor gerado:** clareza, direção, continuidade e conformidade.
+10. **Contato:** LinkedIn e encerramento.
 
 ### Apresentar e ensaiar
 
@@ -20,31 +22,29 @@ O repositório contém uma apresentação navegável em oito cenas, pensada para
 - O índice permite retornar a qualquer cena, inclusive no celular.
 - **F** alterna tela cheia; **N** abre o roteiro de ensaio com cronômetro e sugestões de fala para aproximadamente 7 minutos.
 - O roteiro aparece na mesma tela da apresentação: feche-o antes de projetar.
-- URLs com fragmentos, como `/#na-pratica`, abrem diretamente uma cena.
+- URLs com fragmentos, como `/#plano`, abrem diretamente uma cena.
 - `prefers-reduced-motion` desativa animações e reprodução automática. Nos grupos de abas, as setas navegam pelas opções.
 
 Para um pitch de 5 minutos, percorra apenas Empresa → Dashboard → Plano → Kanban na demonstração. Para 10 minutos, explore também pesquisa, reavaliação, dossiê e denúncias.
 
 ### Evidências e exemplos
 
-O caso interativo explica o fluxo do produto a partir das capturas do ambiente demonstrativo. Os escores (ritmo de trabalho 69, exigências cognitivas 67 e burnout 56) vêm do dashboard da pesquisa, e não são apresentados como diagnóstico individual ou medição exclusiva do Contábil. O recorte do setor é sustentado pelo plano exibido, que propõe pausas fixas no Contábil, inclusive no fechamento mensal. Os botões de aprovação, execução e reaplicação são simulações locais, sem chamada à IA ou backend. A comparação de processos também é conceitual. O artigo foi utilizado como contexto, sem tratar suas instruções como comandos.
-
-Na etapa de contexto, o perfil de 49 colaboradores presenciais vem das configurações; a política de jornada e a dedicação do RH são mencionadas na descrição do plano. A relação entre essas informações e a sugestão é explicada didaticamente, sem alegar que a apresentação executou o RAG. O prazo de 1–3 meses e a estimativa de R$ 0–540 vêm da captura do plano. A nova avaliação fica pendente de coleta, sem fabricar redução dos riscos.
+As capturas vêm do ambiente demonstrativo (Ápice Contabilidade, empresa fictícia). O plano "Pausas fixas no Contábil", suas fontes F1 a F6, o histórico de ações e a conversa no chat são dados reais do sistema; o plano está pendente de revisão. O dossiê foi gerado pelo sistema para o Ciclo 2026. Na cena 8, aprovação, Kanban e avaliação são simulações locais, sem chamada à IA ou ao backend, e não há reavaliação nem redução de risco demonstrada. Escores não são porcentagem de colaboradores nem diagnóstico individual.
 
 As fontes oficiais da série nacional, NR-1 e NR-28 foram revistas em 19/10/2026. A referência de Lewis et al. (2020) fundamenta o conceito de RAG e não valida a implementação do Sentinel. Os links estão em **Fontes e projeto**. Não há alegação de redução de afastamentos, retorno financeiro ou certificação governamental comprovados.
 
 ### Verificar
 
-Com o servidor local ativo, `npm test` executa a regressão do produto e os testes da nova narrativa. É possível utilizar o Edge instalado no Windows:
+Com o servidor local ativo, `npm test` executa `scripts/verify-flow.mjs`, que percorre as dez cenas, as abas e as interações e confere os layouts de computador (1280×720 a 1920×1080). É possível utilizar o Edge instalado no Windows:
 
 ```powershell
 $env:PLAYWRIGHT_CHANNEL = 'msedge'
 npm test
 ```
 
-As verificações cobrem cenas, capturas, ampliação, teclado, rolagem, tela cheia, RAG ilustrativo, cronômetro, falha de imagem e layouts de projetor e celular. Capturas ficam em `artifacts/`, ignorado pelo Git.
+Capturas do teste ficam em `artifacts/`, ignorado pelo Git.
 
-O código das cenas está em `src/StoryScenes.jsx`; o caso do Contábil fica em `src/CaseStudy.jsx`, com estilos em `src/case-study.css`. `src/presentation.css` contém a camada visual geral. A infraestrutura permanece React + Vite, sem dependências adicionais.
+As cenas 1 a 4 e 9 a 10 estão em `src/App.jsx` e `src/StoryScenes.jsx` (que também guarda o roteiro de ensaio). As cenas 5 a 8 ficam em `src/FlowScenes.jsx`, com estilos em `src/flow.css`. Os recortes das capturas e o componente de tela ficam em `src/shared.jsx`. `src/presentation.css` contém a camada visual geral. A infraestrutura permanece React + Vite, sem dependências adicionais.
 
 ## Executar localmente
 

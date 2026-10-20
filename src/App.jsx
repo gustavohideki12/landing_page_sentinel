@@ -1,12 +1,13 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
-import { CaseScene, GapScene, PresenterPanel } from './StoryScenes';
+import { GapScene, PresenterPanel } from './StoryScenes';
+import { CycleScene, FoundationScene, LearningScene, PlanScene } from './FlowScenes';
+import { SceneTitle } from './shared';
 import {
   ArrowLeft, ArrowRight, ArrowUpRight, BarChart3, BookOpen,
-  BrainCircuit, CalendarDays, Check, CheckCheck, ChevronRight, CircleHelp,
-  ClipboardList, Clock3, Fingerprint, HeartPulse, LockKeyhole, MessageCircle,
-  Maximize2, Minimize2, Pause, Play, RotateCcw, Settings2,
-  ShieldCheck, Sparkles, Users, Scale, FileText, Database, Home, Award, UploadCloud, X, ZoomIn, ZoomOut,
-  Linkedin, ExternalLink, Type, Eye, Sun, Moon, MapPin, Wallet,
+  BrainCircuit, CalendarDays, CheckCheck, CircleHelp,
+  ClipboardList, Clock3, Database, FileText, Fingerprint, HeartPulse, MessageCircle,
+  Maximize2, Minimize2, RotateCcw, ShieldCheck, Sparkles, Users, Scale, X, ZoomIn, ZoomOut,
+  Linkedin, ExternalLink, Type,
 } from 'lucide-react';
 
 const sources = {
@@ -19,51 +20,16 @@ const sources = {
 const chapters = [
   { title: 'Abertura', icon: HeartPulse }, { title: 'O problema', icon: BarChart3 },
   { title: 'A lacuna', icon: CircleHelp }, { title: 'A solução', icon: ShieldCheck },
-  { title: 'Produto', icon: Play }, { title: 'IA + contexto', icon: BrainCircuit },
-  { title: 'Na prática', icon: Users }, { title: 'O valor', icon: CheckCheck },
-  { title: 'Contato', icon: Linkedin },
+  { title: 'O ciclo', icon: RotateCcw }, { title: 'A base', icon: Database },
+  { title: 'O plano', icon: Sparkles }, { title: 'Aprendizado', icon: CheckCheck },
+  { title: 'O valor', icon: BrainCircuit }, { title: 'Contato', icon: Linkedin },
 ];
-const sceneSlugs = ['abertura', 'problema', 'lacuna', 'solucao', 'produto', 'inteligencia', 'na-pratica', 'valor', 'contato'];
+const sceneSlugs = ['abertura', 'problema', 'lacuna', 'solucao', 'ciclo', 'base', 'plano', 'aprendizado', 'valor', 'contato'];
+const pad = (value) => String(value).padStart(2, '0');
 const sceneFromHash = () => Math.max(0, sceneSlugs.indexOf(window.location.hash.slice(1)));
-
-const media = {
-  painel: { file: 'dashboard-v2', size: [894, 859], crop: [20, 112, 855, 473] },
-  graficos: { file: 'dashboard-v2', size: [894, 859], crop: [20, 604, 855, 255] },
-  contexto: { file: 'contexto-v2', size: [1914, 902], crop: [445, 350, 1280, 493] },
-  inicio: { file: 'inicio-v2', size: [1917, 905], crop: [445, 94, 1280, 455] },
-  ciclos: { file: 'ciclo-v2', size: [1092, 815], crop: [25, 40, 1027, 533] },
-  criar: { file: 'criar-ciclo', size: [532, 657], crop: [8, 13, 512, 636] },
-  kanban: { file: 'kanban-v2', size: [1353, 758], crop: [40, 177, 1280, 356] },
-  plano: { file: 'plano-v2', size: [575, 854], crop: [8, 0, 557, 465] },
-  plano5w2h: { file: 'plano-v2', size: [575, 854], crop: [8, 500, 557, 345] },
-  rag: { file: 'rag-aplicado', size: [1917, 872], crop: [477, 282, 1202, 580] },
-  dossie: { file: 'dossie', size: [1113, 783], crop: [50, 118, 1018, 602] },
-  denuncias: { file: 'denuncias', size: [902, 748], crop: [21, 9, 855, 721] },
-};
-
-const steps = [
-  { title: 'Início', group: 'Preparar', heading: 'O ponto de partida do RH.', icon: Home, image: 'inicio', tags: ['Visão do gestor', 'Jornada integrada'], value: 'Tudo conectado', notes: ['Pesquisas, indicadores e ações', 'Um só ambiente para o RH'] },
-  { title: 'Empresa', group: 'Preparar', heading: 'A realidade da empresa entra na análise.', icon: Settings2, image: 'contexto', tags: ['Perfil', 'Orçamento', 'Restrições'], value: 'Contexto real', notes: ['Porte e regime de trabalho', 'Recursos disponíveis', 'Limites para as recomendações'] },
-  { title: 'Base de conhecimento', group: 'Preparar', heading: 'A IA conhece as regras da empresa.', icon: Database, image: 'knowledge', tags: ['Documentos internos', 'RAG', 'Contexto'], value: 'Recomendações situadas', notes: ['Políticas e procedimentos', 'Padrões e limites internos', 'Trechos relevantes recuperados para a IA'] },
-  { title: 'Criar pesquisa', group: 'Escutar', heading: 'Escolher o instrumento. Convidar a equipe.', icon: ClipboardList, image: 'criar', tags: ['Colaboradores', 'Setores', 'Questionários'], value: 'Escuta estruturada', notes: ['COPSOQ II/III, JSS ou OLBI', 'Colaboradores vinculados à pesquisa', 'Respostas anônimas'] },
-  { title: 'Acompanhar ciclo', group: 'Escutar', heading: 'Acompanhar hoje. Comparar depois.', icon: RotateCcw, image: 'ciclos', tags: ['Adesão', 'Histórico', 'Reavaliação'], value: 'Evolução comparável', notes: ['Gerenciar respostas e participação', 'Reaplicar o mesmo instrumento', 'Comparar as coletas e verificar a evolução'] },
-  { title: 'Dashboard', group: 'Agir', heading: 'Enxergar onde a atenção é mais urgente.', icon: BarChart3, image: 'painel', tags: ['Dimensões', 'Setores', 'Prioridades'], value: 'Riscos visíveis', notes: ['Ritmo de trabalho e exigências', 'Índices e ranking de dimensões', 'Visão agregada para orientar o RH'] },
-  { title: 'Plano de ação', group: 'Agir', heading: 'A IA sugere. O gestor decide.', icon: BrainCircuit, image: 'plano', tags: ['IA + RAG', '5W2H', 'Revisão humana'], value: 'Ação viável', notes: ['Aprovar ou rejeitar a recomendação', 'Custos, prazos e capacidade', 'Assistente de IA para esclarecer dúvidas'] },
-  { title: 'Kanban', group: 'Agir', heading: 'Do plano à execução acompanhada.', icon: CheckCheck, image: 'kanban', tags: ['Tarefas', 'Responsáveis', 'Etapas'], value: 'Execução visível', notes: ['Desdobrar os planos em tarefas', 'Acompanhar responsáveis e status', 'Registrar o andamento das ações'] },
-  { title: 'Dossiê e certificado', group: 'Acompanhar', heading: 'Transformar o processo em evidências.', icon: FileText, image: 'dossie', tags: ['Inventário', 'NR-1', 'Certificado Sentinel'], value: 'Gestão documentada', notes: ['Inventário de riscos e medidas', 'Certificado por nível de evidência', 'Reavaliação e melhora enriquecem o registro'] },
-  { title: 'Denúncia anônima', group: 'Acompanhar', heading: 'Ouvir os sinais entre uma pesquisa e outra.', icon: MessageCircle, image: 'denuncias', tags: ['Anonimato', 'Acolhimento', 'Acompanhamento'], value: 'Escuta contínua', notes: ['Relatos de assédio e conflitos', 'Classificar e acompanhar ocorrências', 'Identificar situações que exigem atenção'] },
-];
 
 function Brand({ onClick }) {
   return <button className="brand" onClick={onClick} aria-label="Sentinel, início"><span className="brand-mark" aria-hidden="true" /><span>Sentinel<span className="brand-dot">.</span></span></button>;
-}
-
-function TagRow({ items }) {
-  return <div className="tag-row">{items.map((item) => <span key={item}><Check size={12} />{item}</span>)}</div>;
-}
-
-function SceneTitle({ index, eyebrow, title, children }) {
-  return <div className="scene-heading"><div><span className="eyebrow"><span>{index}</span>{eyebrow}</span><h2>{title}</h2></div>{children}</div>;
 }
 
 function Dialog({ title, onClose, children, controls, className = '' }) {
@@ -127,43 +93,6 @@ function ImpactScene() {
   </section>;
 }
 
-function ProductScreen({ image, title, onOpen, className = '' }) {
-  const container = useRef(null);
-  const [size, setSize] = useState({ width: 0, height: 0 });
-  const [imageFailed, setImageFailed] = useState(false);
-  const item = media[image];
-  const [naturalWidth, naturalHeight] = item.size;
-  const [x, y, width, height] = item.crop;
-  useEffect(() => {
-    const observer = new ResizeObserver(([entry]) => setSize({ width: entry.contentRect.width, height: entry.contentRect.height }));
-    observer.observe(container.current);
-    return () => observer.disconnect();
-  }, []);
-  // Limit enlargement so smaller screenshots retain their original sharpness.
-  const fittedWidth = Math.min(size.width, size.height * width / height, width * 1.1);
-  return <div className={`product-screen ${className}`}>
-    <div className="browser-bar"><div className="window-dots" aria-hidden="true"><i /><i /><i /></div><span><LockKeyhole size={10} />sentinel / {title}</span><button className="bare-icon" onClick={() => onOpen({ file: item.file, title })} aria-label={`Ampliar ${title}`} title="Ampliar tela"><Maximize2 size={14} /></button></div>
-    <div className="screen-fit" ref={container}>
-      {imageFailed ? <p className="image-fallback" role="status">Não foi possível carregar a captura de {title}. Recarregue a página para tentar novamente.</p> : <div className="screen-canvas" style={{ width: fittedWidth || '100%', height: fittedWidth ? fittedWidth * height / width : '100%' }}>
-        <div className="screen-pixels"><img src={`/images/${item.file}.png`} alt={`Interface real: ${title}`} onError={() => setImageFailed(true)} style={{ width: `${naturalWidth / width * 100}%`, transform: `translate(${-x / naturalWidth * 100}%, ${-y / naturalHeight * 100}%)` }} /></div>
-      </div>}
-    </div>
-  </div>;
-}
-
-function KnowledgeFlow() {
-  return <div className="knowledge-flow" aria-label="Fluxo conceitual do RAG">
-    <span className="knowledge-eyebrow"><UploadCloud size={15} />DOCUMENTOS DA EMPRESA</span>
-    <div className="knowledge-documents">{['Políticas internas', 'Procedimentos', 'Padrões e limites'].map((label) => <div key={label}><FileText size={24} /><span>{label}</span><Check size={13} /></div>)}</div>
-    <div className="knowledge-path" aria-hidden="true"><span /><ArrowRight size={18} /></div>
-    <div className="knowledge-core"><Database size={43} strokeWidth={1.3} /><b>Base de conhecimento</b><span>Recuperação de trechos relevantes</span></div>
-    <div className="knowledge-path" aria-hidden="true"><span /><ArrowRight size={18} /></div>
-    <div className="knowledge-output"><BrainCircuit size={38} strokeWidth={1.3} /><b>IA com contexto</b><span>Recomendações e assistente</span></div>
-    <div className="knowledge-foundation"><BookOpen size={17} /><span>Pesquisas científicas + documentos oficiais</span><ShieldCheck size={17} /></div>
-    <span className="knowledge-caption">Esquema do RAG do Sentinel</span>
-  </div>;
-}
-
 function SolutionScene() {
   const [mode, setMode] = useState(0);
   const modes = [
@@ -187,102 +116,26 @@ function ProblemScene({ onSources }) {
   </section>;
 }
 
-function ProductScene({ stepIndex, onStep, onOpen }) {
-  const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  const [detailStep, setDetailStep] = useState(null);
-  const step = steps[stepIndex];
-  useEffect(() => {
-    setDetailStep(null);
-  }, [stepIndex]);
-  useEffect(() => {
-    if (!playing || !['painel', 'plano'].includes(step.image)) return;
-    const timer = setTimeout(() => setDetailStep(stepIndex), 3800);
-    return () => clearTimeout(timer);
-  }, [stepIndex, playing, step.image]);
-  useEffect(() => {
-    if (!playing) return;
-    const timer = setTimeout(() => {
-      if (stepIndex === steps.length - 1) setPlaying(false);
-      else onStep(stepIndex + 1);
-    }, 7500);
-    return () => clearTimeout(timer);
-  }, [playing, stepIndex, onStep]);
-  const image = detailStep === stepIndex ? (step.image === 'painel' ? 'graficos' : 'plano5w2h') : step.image;
-  return <section className="scene product-scene"><SceneTitle index="05" eyebrow="DEMONSTRAÇÃO" title="Um sistema. O ciclo completo."><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar percurso' : 'Reproduzir percurso'} title={playing ? 'Pausar percurso' : 'Reproduzir percurso'} onClick={() => { if (stepIndex === steps.length - 1 && !playing) onStep(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></SceneTitle>
-    <div className="demo-workspace"><nav className="process-rail" aria-label="Etapas do produto">{steps.map((item, index) => <React.Fragment key={item.title}>{(index === 0 || steps[index - 1].group !== item.group) && <span className="process-group">{item.group}</span>}<button className={stepIndex === index ? 'active' : ''} onClick={() => { onStep(index); setPlaying(false); }} aria-current={stepIndex === index ? 'step' : undefined}><item.icon size={17} /><span>{item.title}</span>{index < stepIndex && <Check className="process-done" size={12} />}</button></React.Fragment>)}</nav>
-    <div className="demo-stage"><div className="demo-heading"><h3>{step.heading}</h3><span className="step-count">{String(stepIndex + 1).padStart(2, '0')}<i> / {steps.length}</i></span></div>
-    <div className={`demo-content ${step.image === 'knowledge' ? 'has-knowledge' : ''}`}><div className="demo-media">{step.image === 'knowledge' ? <KnowledgeFlow /> : <ProductScreen key={image} image={image} title={step.title} onOpen={onOpen} />}</div><aside className="demo-notes" key={step.title}><step.icon size={28} strokeWidth={1.4} /><h4>{step.value}</h4><ul>{step.notes.map((note) => <li key={note}>{note}</li>)}</ul>{step.image === 'dossie' && <div className="certificate-evolution"><Award size={21} /><b>Certificado Sentinel</b><span>Registro → reavaliação → evidências de evolução</span></div>}{step.image === 'ciclos' && <div className="cycle-loop"><span>Pesquisa</span><ArrowRight size={12} /><span>Ação</span><ArrowRight size={12} /><span>Nova coleta</span></div>}</aside></div>
-    <div className="demo-bottom"><TagRow items={step.tags} /><div className="step-controls"><button className="icon-button" disabled={stepIndex === 0} onClick={() => { onStep(stepIndex - 1); setPlaying(false); }} aria-label="Etapa anterior" title="Etapa anterior"><ArrowLeft size={17} /></button><button className="icon-button" disabled={stepIndex === steps.length - 1} onClick={() => { onStep(stepIndex + 1); setPlaying(false); }} aria-label="Próxima etapa" title="Próxima etapa"><ArrowRight size={17} /></button></div></div>{playing && <div className="playback-track"><span key={stepIndex} /></div>}</div></div></section>;
-}
-
-function ScientificFoundation() {
-  const foundations = [
-    { icon: Scale, title: 'Documentos oficiais', subtitle: 'Normas e guias do MTE', description: 'Orientações para a gestão dos riscos no trabalho.' },
-    { icon: BookOpen, title: 'Pesquisas científicas', subtitle: 'Estudos e revisões da literatura', description: 'Evidências para apoiar a escolha das intervenções.' },
-    { icon: ClipboardList, title: 'Instrumentos de avaliação', subtitle: 'COPSOQ II/III · JSS · OLBI', description: 'Questionários estruturados para organizar os indicadores.' },
-  ];
-  return <div className="scientific-foundation" role="region" aria-label="Fontes da base científica">
-    <div className="science-heading"><span className="eyebrow">FONTES PARA FUNDAMENTAR AS SUGESTÕES</span></div>
-    <div className="science-cards">{foundations.map((item) => <article className="science-card" key={item.title}><span className="science-icon"><item.icon size={26} strokeWidth={1.5} /></span><h4>{item.title}</h4><b>{item.subtitle}</b><p>{item.description}</p></article>)}</div>
-    <div className="science-takeaway"><ShieldCheck size={21} /><p>A base fundamenta a sugestão. O contexto da empresa orienta a adaptação.</p></div>
-  </div>;
-}
-
-function ActionPlanVisual({ onOpen }) {
-  const fields = [
-    { label: 'Por quê?', icon: HeartPulse, value: 'Permitir recuperação durante o ritmo acelerado.' },
-    { label: 'Onde?', icon: MapPin, value: 'Contábil, inclusive no fechamento mensal.' },
-    { label: 'Quando?', icon: CalendarDays, value: '1–3 meses; piloto nos primeiros 30 dias.' },
-    { label: 'Quem?', icon: Users, value: 'Coordenador do Contábil + RH.' },
-    { label: 'Como?', icon: ClipboardList, value: 'Combinar dois horários por turno e afixar no mural.' },
-    { label: 'Quanto?', icon: Wallet, value: 'R$ 0–540 de investimento estimado.' },
-  ];
-  return <div className="action-plan-visual" role="region" aria-label="Plano de ação em sete perguntas">
-    <div className="plan-visual-heading"><div><span className="eyebrow">5W2H · EXEMPLO DO SENTINEL</span><h3>Uma sugestão. Sete respostas práticas.</h3></div><button className="plan-print-button" onClick={() => onOpen({ file: media.plano.file, title: 'Plano 5W2H — captura do sistema' })}><Maximize2 size={17} />Ver print do plano</button></div>
-    <div className="plan-main-action"><span className="plan-action-icon"><Sparkles size={25} /></span><div><span>O QUE FAZER?</span><h4>Pausas fixas no Contábil.</h4></div><span className="plan-proposal-label">Proposta da IA</span></div>
-    <dl className="plan-question-grid">{fields.map((field) => <div className="plan-question" key={field.label}><dt><field.icon size={18} /><span>{field.label}</span></dt><dd>{field.value}</dd></div>)}</dl>
-  </div>;
-}
-
-const ragStages = [
-  { title: 'Base científica', caption: 'Pesquisas + guias oficiais', icon: BookOpen, image: 'science', points: ['Documentos oficiais', 'Pesquisas', 'Instrumentos'] },
-  { title: 'Contexto + RAG', caption: 'Documentos da empresa', icon: Database, image: 'rag', points: ['Documentos internos', 'Políticas', 'Contexto da empresa'] },
-  { title: 'Plano 5W2H', caption: 'Sugestão para revisão', icon: Sparkles, image: 'plano', points: ['O quê', 'Como', 'Quem e quando'] },
-];
-
-function RagScene({ onOpen }) {
-  const [phase, setPhase] = useState(0);
-  const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  useEffect(() => {
-    if (!playing) return;
-    const timer = setTimeout(() => {
-      if (phase === 2) setPlaying(false);
-      else setPhase(phase + 1);
-    }, 3600);
-    return () => clearTimeout(timer);
-  }, [phase, playing]);
-  const current = ragStages[phase];
-  return <section className="scene rag-scene"><SceneTitle index="06" eyebrow="DIFERENCIAIS E FUNCIONAMENTO" title="A IA consulta antes de sugerir."><div className="rag-heading-tools"><span className="status-label"><BrainCircuit size={15} />RAG integrado</span><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} title={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} onClick={() => { if (!playing) setPhase(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></div></SceneTitle><p className="rag-plain-language">{phase === 2 ? 'O plano organiza a recomendação em responsáveis, prazos e passos de execução.' : 'RAG, em linguagem simples: buscar informações relevantes nos documentos e usá-las como contexto para a resposta.'}</p>
-    <div className={`rag-pipeline ${playing ? 'is-playing' : ''}`} role="tablist" aria-label="Etapas do RAG">{ragStages.map((item, index) => <React.Fragment key={item.title}><button role="tab" aria-selected={phase === index} onClick={() => { setPhase(index); setPlaying(false); }} className={phase === index ? 'active' : ''}><span className="pipeline-icon"><item.icon size={22} /></span><span><b>{item.title}</b><small>{item.caption}</small></span><span className="pipeline-number">0{index + 1}</span></button>{index < 2 && <div className={`pipeline-line ${phase > index ? 'passed' : ''}`}><span /><ArrowRight size={14} /></div>}</React.Fragment>)}</div>
-    <div className="rag-workspace"><div className="rag-detail">{current.image === 'science' ? <ScientificFoundation /> : current.image === 'plano' ? <ActionPlanVisual onOpen={onOpen} /> : <ProductScreen key={current.image} image={current.image} title={current.title} onOpen={onOpen} />}<div className="screen-caption"><TagRow items={current.points} /></div></div><aside className="rag-aside"><div className="rag-core"><BrainCircuit size={35} strokeWidth={1.5} /><span>Ciência, contexto e ação.</span><small>Uma base para cada recomendação</small></div><div className="differential-item"><ClipboardList size={19} /><div><b>Instrumentos estruturados</b><span>COPSOQ II/III · JSS · OLBI</span></div></div><div className="differential-item"><Settings2 size={19} /><div><b>Filtros de viabilidade</b><span>Orçamento, RH e histórico</span></div></div><div className="differential-item"><BookOpen size={19} /><div><b>Referências rastreáveis</b><span>Pesquisas e documentos oficiais</span></div></div><div className="differential-item"><LockKeyhole size={19} /><div><b>Controle de acesso</b><span>PostgreSQL / Supabase + RLS</span></div></div><div className="human-decision"><ShieldCheck size={20} /><b>Revisão humana</b></div></aside></div><div className="technical-foundation"><span>Next.js + React + TypeScript</span><span>Respostas anonimizadas</span><span>IA + recuperação de contexto</span></div>
-  </section>;
-}
-
 const valueItems = [
-  { title: 'Clareza', before: 'Sinais dispersos', after: 'Prioridades visíveis', image: 'painel', icon: BarChart3 },
-  { title: 'Direção', before: 'Ações desconectadas', after: 'Planos com contexto', image: 'plano', icon: BrainCircuit },
-  { title: 'Continuidade', before: 'Uma pesquisa isolada', after: 'Evolução documentada', image: 'ciclos', icon: RotateCcw },
+  { icon: BarChart3, title: 'Clareza', before: 'Sinais dispersos', after: 'Riscos por dimensão e setor', detail: 'Questionários validados, anônimos e comparáveis entre ciclos.' },
+  { icon: BrainCircuit, title: 'Direção', before: 'Ações genéricas', after: 'Planos fundamentados', detail: 'Contexto, documentos, histórico e ciência antes de cada sugestão.' },
+  { icon: RotateCcw, title: 'Continuidade', before: 'Uma pesquisa isolada', after: 'Um ciclo que aprende', detail: 'Execução no Kanban e resultados que orientam o próximo plano.' },
+  { icon: FileText, title: 'Conformidade', before: 'Gestão sem registro', after: 'Evidências para a NR-1', detail: 'Dossiê com inventário de riscos e planos com responsáveis e prazos.' },
 ];
 
-function ValueScene({ onOpen }) {
-  return <section className="scene value-scene"><SceneTitle index="08" eyebrow="VALOR GERADO" title="Perceber os sinais. Agir com direção." /><div className="value-columns">{valueItems.map((item, index) => <article key={item.title} className="value-column" style={{ '--entry-delay': `${index * 180}ms` }}><div className="value-column-heading"><item.icon size={25} strokeWidth={1.5} /><h3>{item.title}</h3><span>0{index + 1}</span></div><ProductScreen image={item.image} title={item.title} onOpen={onOpen} /><div className="value-change"><span>{item.before}</span><ArrowRight size={17} /><b>{item.after}</b></div></article>)}</div><div className="value-stakeholders"><div><Fingerprint size={22} /><span><b>Colaborador</b><small>Escuta protegida</small></span></div><div><Users size={22} /><span><b>RH</b><small>Decisões orientadas</small></span></div><div><ShieldCheck size={22} /><span><b>Organização</b><small>Histórico e acompanhamento</small></span></div></div><div className="value-close"><span>Sentinel<span>.</span></span><b>Da escuta à ação.</b><small>Valor operacional demonstrado. Impacto sobre afastamentos e retorno financeiro ainda não mensurados.</small></div></section>;
+function ValueScene() {
+  return <section className="scene value-scene" aria-label="Valor gerado"><SceneTitle index="09" eyebrow="VALOR GERADO" title="Perceber os sinais. Agir com direção." />
+    <div className="value-grid">{valueItems.map((item, index) => <article key={item.title} className="value-card" style={{ '--entry-delay': `${index * 140}ms` }}><div className="value-card-heading"><item.icon size={24} strokeWidth={1.5} /><h3>{item.title}</h3><span>{pad(index + 1)}</span></div><div className="value-change"><span>{item.before}</span><ArrowRight size={16} /><b>{item.after}</b></div><p>{item.detail}</p></article>)}</div>
+    <div className="value-stakeholders"><div><Fingerprint size={22} /><span><b>Colaborador</b><small>Escuta protegida pelo anonimato</small></span></div><div><Users size={22} /><span><b>RH</b><small>Decide com base, não no achismo</small></span></div><div><ShieldCheck size={22} /><span><b>Organização</b><small>Histórico, evidências e evolução</small></span></div></div>
+    <div className="value-close"><span>Sentinel<span>.</span></span><b>Da escuta à ação.</b><small>Valor operacional demonstrado. Impacto sobre afastamentos e retorno financeiro ainda não mensurados.</small></div>
+  </section>;
 }
 
 function ContactScene() {
   const linkedinUrl = 'https://www.linkedin.com/company/sentinel-gestao-de-seguranca';
   return (
     <section className="scene contact-scene" aria-label="Contato e Conexão">
-      <SceneTitle index="09" eyebrow="CONECTE-SE AO SENTINEL" title="Vamos transformar a segurança psicológica juntos." />
+      <SceneTitle index="10" eyebrow="CONECTE-SE AO SENTINEL" title="Vamos transformar a segurança psicológica juntos." />
       <div className="contact-container">
         <a 
           href={linkedinUrl} 
@@ -391,7 +244,6 @@ function AccessibilityDialog({ fontSize, onFontSizeChange, onClose }) {
 
 export default function App() {
   const [scene, setScene] = useState(sceneFromHash);
-  const [step, setStep] = useState(0);
   const [selected, setSelected] = useState(null);
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
@@ -416,7 +268,7 @@ export default function App() {
       if (selected || sourcesOpen || indexOpen || a11yOpen || event.ctrlKey || event.altKey || event.metaKey || ['INPUT', 'SELECT', 'TEXTAREA'].includes(event.target.tagName)) return;
       if (event.key.toLowerCase() === 'n') { event.preventDefault(); setPresenterOpen((value) => !value); return; }
       if (event.key.toLowerCase() === 'f') { event.preventDefault(); toggleFullscreen(); return; }
-      if (event.target.closest('[role="tablist"],.process-rail,.case-stages,.presenter-panel')) return;
+      if (event.target.closest('[role="tablist"],.presenter-panel')) return;
       if (['ArrowRight', 'ArrowDown', 'PageDown'].includes(event.key)) { event.preventDefault(); navigate(scene + 1); }
       if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); navigate(scene - 1); }
       if (event.key === 'Home') { event.preventDefault(); navigate(0); }
@@ -464,12 +316,12 @@ export default function App() {
     event.preventDefault(); event.stopPropagation(); tabs[index].click(); tabs[index].focus();
   };
   const lastScene = scene === chapters.length - 1;
-  return <div className={`pitch-app ${scene === 0 ? 'opening-active' : ''} a11y-font-${fontSize}`} onKeyDown={onTabKeys}><a className="skip-link" href="#conteudo" onClick={(event) => { event.preventDefault(); scrollArea.current?.focus(); }}>Pular para a apresentação</a><header className="app-header"><Brand onClick={() => navigate(0)} /><nav className="chapter-nav" aria-label="Cenas do pitch">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : ''} onClick={() => navigate(index)} aria-current={scene === index ? 'page' : undefined} title={item.title}><span className="chapter-number">0{index + 1}</span><item.icon size={16} /><span className="chapter-name">{item.title}</span></button>)}</nav><div className="header-tools"><button className="icon-button a11y-button" aria-label="Opções de acessibilidade" onClick={() => setA11yOpen(true)} title="Acessibilidade (tamanho da fonte)"><Type size={17} /></button><button className="icon-button index-button" aria-label="Índice da apresentação" onClick={() => setIndexOpen(true)} title="Índice da apresentação"><ClipboardList size={17} /></button><button className="icon-button fullscreen-button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Sair da tela cheia' : 'Tela cheia'} title={fullscreen ? 'Sair da tela cheia · F' : 'Tela cheia · F'}>{fullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}</button></div></header>
-    <main id="conteudo" tabIndex={-1} ref={scrollArea} className={`scene-area scene-area-${scene}`}><div key={scene} className="scene-transition">{scene === 0 && <ImpactScene />}{scene === 1 && <ProblemScene onSources={() => setSourcesOpen(true)} />}{scene === 2 && <GapScene />}{scene === 3 && <SolutionScene onOpen={setSelected} />}{scene === 4 && <ProductScene stepIndex={step} onStep={setStep} onOpen={setSelected} />}{scene === 5 && <RagScene onOpen={setSelected} />}{scene === 6 && <CaseScene onOpen={setSelected} />}{scene === 7 && <ValueScene onOpen={setSelected} />}{scene === 8 && <ContactScene />}</div></main>
+  return <div className={`pitch-app ${scene === 0 ? 'opening-active' : ''} a11y-font-${fontSize}`} onKeyDown={onTabKeys}><a className="skip-link" href="#conteudo" onClick={(event) => { event.preventDefault(); scrollArea.current?.focus(); }}>Pular para a apresentação</a><header className="app-header"><Brand onClick={() => navigate(0)} /><nav className="chapter-nav" aria-label="Cenas do pitch">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : ''} onClick={() => navigate(index)} aria-current={scene === index ? 'page' : undefined} title={item.title}><span className="chapter-number">{pad(index + 1)}</span><item.icon size={16} /><span className="chapter-name">{item.title}</span></button>)}</nav><div className="header-tools"><button className="icon-button a11y-button" aria-label="Opções de acessibilidade" onClick={() => setA11yOpen(true)} title="Acessibilidade (tamanho da fonte)"><Type size={17} /></button><button className="icon-button index-button" aria-label="Índice da apresentação" onClick={() => setIndexOpen(true)} title="Índice da apresentação"><ClipboardList size={17} /></button><button className="icon-button fullscreen-button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Sair da tela cheia' : 'Tela cheia'} title={fullscreen ? 'Sair da tela cheia · F' : 'Tela cheia · F'}>{fullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}</button></div></header>
+    <main id="conteudo" tabIndex={-1} ref={scrollArea} className={`scene-area scene-area-${scene}`}><div key={scene} className="scene-transition">{scene === 0 && <ImpactScene />}{scene === 1 && <ProblemScene onSources={() => setSourcesOpen(true)} />}{scene === 2 && <GapScene />}{scene === 3 && <SolutionScene onOpen={setSelected} />}{scene === 4 && <CycleScene onOpen={setSelected} />}{scene === 5 && <FoundationScene onOpen={setSelected} />}{scene === 6 && <PlanScene onOpen={setSelected} />}{scene === 7 && <LearningScene onOpen={setSelected} />}{scene === 8 && <ValueScene />}{scene === 9 && <ContactScene />}</div></main>
     <div className="sr-only" aria-live="polite" aria-atomic="true">Cena {scene + 1} de {chapters.length}: {chapters[scene].title}</div>
-    <footer className="presentation-footer"><div className="footer-tools"><button className="footer-info" onClick={() => setSourcesOpen(true)}><CircleHelp size={15} /><span>Fontes e projeto</span></button><button className="footer-info" onClick={() => setA11yOpen(true)} title="Acessibilidade"><Type size={15} /><span>Acessibilidade</span></button><button className={`footer-info rehearsal-button ${presenterOpen ? 'active' : ''}`} aria-pressed={presenterOpen} onClick={() => setPresenterOpen(!presenterOpen)} title="Roteiro de ensaio · N"><BookOpen size={15} /><span>Ensaiar</span></button></div><div className="scene-pagination" aria-label="Progresso da apresentação">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : index < scene ? 'visited' : ''} onClick={() => navigate(index)} aria-label={`Cena ${index + 1}: ${item.title}`} title={item.title}><span /></button>)}</div><div className="presentation-controls"><span className="scene-counter">0{scene + 1}<i> / 0{chapters.length}</i></span><button className="icon-button" disabled={scene === 0} onClick={() => navigate(scene - 1)} aria-label="Cena anterior" title="Cena anterior"><ArrowLeft size={17} /></button><button className="button button-blue next-scene" aria-label={lastScene ? 'Reiniciar pitch' : 'Próximo'} title={lastScene ? 'Reiniciar pitch' : 'Próximo'} onClick={() => { if (lastScene) { setStep(0); navigate(0); } else navigate(scene + 1); }}><span>{lastScene ? 'Reiniciar' : 'Próximo'}</span>{lastScene ? <RotateCcw size={16} /> : <ArrowRight size={16} />}</button></div></footer>
+    <footer className="presentation-footer"><div className="footer-tools"><button className="footer-info" onClick={() => setSourcesOpen(true)}><CircleHelp size={15} /><span>Fontes e projeto</span></button><button className="footer-info" onClick={() => setA11yOpen(true)} title="Acessibilidade"><Type size={15} /><span>Acessibilidade</span></button><button className={`footer-info rehearsal-button ${presenterOpen ? 'active' : ''}`} aria-pressed={presenterOpen} onClick={() => setPresenterOpen(!presenterOpen)} title="Roteiro de ensaio · N"><BookOpen size={15} /><span>Ensaiar</span></button></div><div className="scene-pagination" aria-label="Progresso da apresentação">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : index < scene ? 'visited' : ''} onClick={() => navigate(index)} aria-label={`Cena ${index + 1}: ${item.title}`} title={item.title}><span /></button>)}</div><div className="presentation-controls"><span className="scene-counter">{pad(scene + 1)}<i> / {pad(chapters.length)}</i></span><button className="icon-button" disabled={scene === 0} onClick={() => navigate(scene - 1)} aria-label="Cena anterior" title="Cena anterior"><ArrowLeft size={17} /></button><button className="button button-blue next-scene" aria-label={lastScene ? 'Reiniciar pitch' : 'Próximo'} title={lastScene ? 'Reiniciar pitch' : 'Próximo'} onClick={() => { if (lastScene) navigate(0); else navigate(scene + 1); }}><span>{lastScene ? 'Reiniciar' : 'Próximo'}</span>{lastScene ? <RotateCcw size={16} /> : <ArrowRight size={16} />}</button></div></footer>
     {presenterOpen && <PresenterPanel scene={scene} onClose={() => setPresenterOpen(false)} />}
-    {indexOpen && <Dialog title="Escolha um capítulo" onClose={() => setIndexOpen(false)} className="index-dialog"><nav className="chapter-index" aria-label="Índice completo">{chapters.map((item, i) => <button key={item.title} onClick={() => navigate(i)} aria-current={scene === i ? 'page' : undefined}><span>0{i + 1}</span><item.icon size={23} /><b>{item.title}</b><ArrowRight size={18} /></button>)}</nav><p className="index-help">Role ou use as setas para navegar · F: tela cheia · N: roteiro de ensaio · Home / End: início / fim</p></Dialog>}
+    {indexOpen && <Dialog title="Escolha um capítulo" onClose={() => setIndexOpen(false)} className="index-dialog"><nav className="chapter-index" aria-label="Índice completo">{chapters.map((item, i) => <button key={item.title} onClick={() => navigate(i)} aria-current={scene === i ? 'page' : undefined}><span>{pad(i + 1)}</span><item.icon size={23} /><b>{item.title}</b><ArrowRight size={18} /></button>)}</nav><p className="index-help">Role ou use as setas para navegar · F: tela cheia · N: roteiro de ensaio · Home / End: início / fim</p></Dialog>}
     {a11yOpen && <AccessibilityDialog fontSize={fontSize} onFontSizeChange={setFontSize} onClose={() => setA11yOpen(false)} />}
     {selected && <ImageDialog selected={selected} onClose={() => setSelected(null)} />}{sourcesOpen && <SourcesDialog onClose={() => setSourcesOpen(false)} />}
   </div>;
