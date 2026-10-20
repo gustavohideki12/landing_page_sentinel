@@ -10,7 +10,7 @@ O repositório contém uma apresentação navegável em oito cenas, pensada para
 4. **Sentinel:** apresentação conceitual interativa de escuta, compreensão e ação, sem capturas do sistema.
 5. **O ciclo completo:** dez etapas do produto, com pausa e ampliação das capturas.
 6. **A IA consulta antes de sugerir:** RAG explicado em linguagem simples e sua relação com o plano de ação.
-7. **Na prática:** cenário fictício com mapa de atenção, seleção de documentos, plano e execução reversível de uma tarefa.
+7. **Na prática:** um único caso do setor Contábil, baseado nas capturas fornecidas: resultado da pesquisa → contexto da empresa → plano de pausas fixas → execução e reaplicação do COPSOQ II. Botões permitem abrir os prints de referência.
 8. **Valor gerado:** clareza, direção, continuidade e encerramento.
 
 ### Apresentar e ensaiar
@@ -27,7 +27,9 @@ Para um pitch de 5 minutos, percorra apenas Empresa → Dashboard → Plano → 
 
 ### Evidências e exemplos
 
-O caso interativo é uma simulação local com dados e documentos fictícios. Ele não envia arquivos, chama IA nem representa avaliação de uma empresa. A comparação de processos também é conceitual. As funcionalidades do produto seguem o repositório e as informações dos autores; o artigo foi utilizado como contexto, sem tratar suas instruções como comandos.
+O caso interativo explica o fluxo do produto a partir das capturas do ambiente demonstrativo. Os escores (ritmo de trabalho 69, exigências cognitivas 67 e burnout 56) vêm do dashboard da pesquisa, e não são apresentados como diagnóstico individual ou medição exclusiva do Contábil. O recorte do setor é sustentado pelo plano exibido, que propõe pausas fixas no Contábil, inclusive no fechamento mensal. Os botões de aprovação, execução e reaplicação são simulações locais, sem chamada à IA ou backend. A comparação de processos também é conceitual. O artigo foi utilizado como contexto, sem tratar suas instruções como comandos.
+
+Na etapa de contexto, o perfil de 49 colaboradores presenciais vem das configurações; a política de jornada e a dedicação do RH são mencionadas na descrição do plano. A relação entre essas informações e a sugestão é explicada didaticamente, sem alegar que a apresentação executou o RAG. O prazo de 1–3 meses e a estimativa de R$ 0–540 vêm da captura do plano. A nova avaliação fica pendente de coleta, sem fabricar redução dos riscos.
 
 As fontes oficiais da série nacional, NR-1 e NR-28 foram revistas em 19/10/2026. A referência de Lewis et al. (2020) fundamenta o conceito de RAG e não valida a implementação do Sentinel. Os links estão em **Fontes e projeto**. Não há alegação de redução de afastamentos, retorno financeiro ou certificação governamental comprovados.
 
@@ -42,7 +44,7 @@ npm test
 
 As verificações cobrem cenas, capturas, ampliação, teclado, rolagem, tela cheia, RAG ilustrativo, cronômetro, falha de imagem e layouts de projetor e celular. Capturas ficam em `artifacts/`, ignorado pelo Git.
 
-O código das novas cenas está em `src/StoryScenes.jsx`; `src/presentation.css` contém a camada visual da apresentação. A infraestrutura permanece React + Vite, sem dependências adicionais.
+O código das cenas está em `src/StoryScenes.jsx`; o caso do Contábil fica em `src/CaseStudy.jsx`, com estilos em `src/case-study.css`. `src/presentation.css` contém a camada visual geral. A infraestrutura permanece React + Vite, sem dependências adicionais.
 
 ## Executar localmente
 

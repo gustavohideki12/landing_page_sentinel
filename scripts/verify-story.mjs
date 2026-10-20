@@ -23,21 +23,32 @@ try {
   assert.match(await page.locator('.decision-chain').innerText(), /Sugestões com o contexto/);
   await page.screenshot({ path: 'artifacts/v4-connected.png' });
   await chapter(6);
+  assert.deepEqual(await page.locator('.case-indicator > b').allTextContents(), ['69', '67', '56']);
+  assert.match(await page.locator('.case-priority').innerText(), /Setor Contábil/);
+  await page.getByRole('button', { name: 'Ver dashboard', exact: true }).click();
+  assert.match(await page.locator('dialog img').getAttribute('src'), /dashboard-v2/);
+  await page.keyboard.press('Escape');
   await page.screenshot({ path: 'artifacts/v4-case-signal.png' });
   await page.getByRole('navigation', { name: 'Etapas do caso' }).getByRole('button').nth(1).click();
-  await page.getByRole('button', { name: 'Guia de liderança', exact: true }).click();
-  assert.match(await page.locator('.retrieved-fragment').innerText(), /revisar prioridades/);
-  assert.match(await page.locator('.context-suggestion').innerText(), /planejamento semanal/);
-  await page.getByRole('button', { name: 'Contexto operacional', exact: true }).click();
-  assert.match(await page.locator('.context-suggestion').innerText(), /ajustes de processo/);
+  assert.match(await page.locator('.case-context-fact').innerText(), /49 colaboradores/);
+  await page.getByRole('button', { name: 'Política de jornada', exact: true }).click();
+  assert.match(await page.locator('.case-context-fact').innerText(), /item 5/);
+  assert.match(await page.locator('.case-context-effect').innerText(), /fechamento/);
+  await page.getByRole('button', { name: 'Viabilidade', exact: true }).click();
+  assert.match(await page.locator('.case-context-effect').innerText(), /coordenador/);
   await page.screenshot({ path: 'artifacts/v4-case-context.png' });
   await page.getByRole('button', { name: 'Continuar o caso', exact: true }).click();
-  assert.equal(await page.locator('.plan-grid > div').count(), 6);
-  await page.getByRole('button', { name: 'Continuar o caso', exact: true }).click();
-  const task = page.getByRole('button', { name: /Realizar revisão de capacidade/ });
+  assert.match(await page.locator('.case-action-plan').innerText(), /Pausas fixas/);
+  assert.match(await page.locator('.case-plan-facts').innerText(), /R\$ 0–540/);
+  await page.getByRole('button', { name: 'Aprovar plano do exemplo', exact: true }).click();
+  const reapply = page.getByRole('button', { name: 'Preparar reaplicação do COPSOQ II', exact: true });
+  assert.equal(await reapply.isDisabled(), true);
+  const task = page.getByRole('button', { name: /Definir e registrar os horários de pausa/ });
   await task.click();
   assert.equal(await task.getAttribute('aria-pressed'), 'true');
-  assert.match(await page.locator('.next-measure').innerText(), /O resultado ainda precisa ser observado/);
+  assert.match(await page.locator('.case-reassessment').innerText(), /comparar os indicadores/);
+  await reapply.click();
+  assert.match(await page.locator('.case-reassessment').innerText(), /Ainda não há resultado de melhora/);
   await task.click();
   assert.equal(await task.getAttribute('aria-pressed'), 'false');
   await task.click();
@@ -77,12 +88,21 @@ try {
     for (let stage = 0; stage < 4; stage++) {
       await page.getByRole('navigation', { name: 'Etapas do caso' }).getByRole('button').nth(stage).click();
       await page.waitForTimeout(150);
+      if (stage === 1) for (const name of ['Perfil da empresa', 'Política de jornada', 'Viabilidade']) {
+        await page.getByRole('button', { name, exact: true }).click();
+        if (viewport.width >= 1280) assert.ok(await page.locator('.case-visual').evaluate((el) => {
+          const outer = el.getBoundingClientRect();
+          const inner = el.firstElementChild.getBoundingClientRect();
+          return inner.top >= outer.top && inner.bottom <= outer.bottom;
+        }), `Context ${name} clipped at ${viewport.width}`);
+      }
       const size = await page.locator('main').evaluate((el) => ({ horizontal: el.scrollWidth - el.clientWidth, vertical: el.scrollHeight - el.clientHeight, doc: document.documentElement.scrollWidth - innerWidth }));
       assert.ok(size.horizontal < 2 && size.doc < 2, `Case ${stage}, ${viewport.width}: ${JSON.stringify(size)}`);
       if (viewport.width >= 1280) {
         assert.ok(size.vertical < 3, `Case projector overflow ${stage}: ${JSON.stringify(size)}`);
         assert.ok(await page.locator('.case-visual').evaluate((el) => el.scrollHeight - el.clientHeight < 3), `Clipped case content at stage ${stage}, ${viewport.width}`);
       }
+      if (viewport.width === 1280) await page.screenshot({ path: `artifacts/case-projector-${stage}.png` });
       if (viewport.width === 390 && stage === 1) await page.screenshot({ path: 'artifacts/v4-mobile-context.png', fullPage: true });
     }
   }
@@ -91,7 +111,7 @@ try {
   await chapter(4);
   await page.getByRole('status').filter({ hasText: /Não foi possível carregar/ }).waitFor();
   assert.deepEqual(errors, []);
-  console.log(JSON.stringify({ status: 'passed', checks: ['interactive before/after', 'four case decisions', 'document-dependent context', 'reversible task completion', 'rehearsal notes and timer', 'keyboard, scroll and deep links', 'fullscreen', 'all case states on six viewport sizes', 'image failure fallback', 'no runtime errors'] }, null, 2));
+  console.log(JSON.stringify({ status: 'passed', checks: ['interactive before/after', 'source screenshot evidence', 'one accounting case across four stages', 'company context and policy', 'plan review and simulated approval', 'reversible task completion', 'reapplication without fabricated improvement', 'rehearsal notes and timer', 'keyboard, scroll and deep links', 'fullscreen', 'all case states on six viewport sizes', 'image failure fallback', 'no runtime errors'] }, null, 2));
 } finally {
   await browser.close();
 }

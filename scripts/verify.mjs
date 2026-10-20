@@ -81,7 +81,9 @@ try {
     for (let index = 0; index < 8; index++) {
       await chapter(page, index);
       const result = await layout(page, `${viewport.width}: scene ${index}`);
-      if (viewport.width >= 1280) assert.ok(result.height < 3, `Desktop vertical overflow: ${index}, ${result.height}`);
+      // RAG may scroll on short displays rather than compressing its diagram
+      // into neighboring sections. Containment is verified in verify-rag.mjs.
+      if (viewport.width >= 1280 && index !== 5) assert.ok(result.height < 3, `Desktop vertical overflow: ${index}, ${result.height}`);
       if (viewport.width >= 1280) {
         const clipped = await page.locator('.rag-aside,.case-visual,.intro-route').evaluateAll((nodes) => nodes.map((el) => ({ name: el.className, overflow: el.scrollHeight - el.clientHeight })).filter((item) => item.overflow > 2));
         assert.deepEqual(clipped, [], `Clipped content in scene ${index} at ${viewport.width}`);
