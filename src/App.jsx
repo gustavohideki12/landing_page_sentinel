@@ -6,7 +6,7 @@ import {
   ClipboardList, Clock3, Fingerprint, HeartPulse, LockKeyhole, MessageCircle,
   Maximize2, Minimize2, Pause, Play, RotateCcw, Settings2,
   ShieldCheck, Sparkles, Users, Scale, FileText, Database, Home, Award, UploadCloud, X, ZoomIn, ZoomOut,
-  Linkedin, ExternalLink, Type, Eye, Sun, Moon,
+  Linkedin, ExternalLink, Type, Eye, Sun, Moon, MapPin, Wallet,
 } from 'lucide-react';
 
 const sources = {
@@ -36,7 +36,7 @@ const media = {
   kanban: { file: 'kanban-v2', size: [1353, 758], crop: [40, 177, 1280, 356] },
   plano: { file: 'plano-v2', size: [575, 854], crop: [8, 0, 557, 465] },
   plano5w2h: { file: 'plano-v2', size: [575, 854], crop: [8, 500, 557, 345] },
-  referencias: { file: 'rag-aplicado', size: [1917, 872], crop: [477, 282, 1202, 580] },
+  rag: { file: 'rag-aplicado', size: [1917, 872], crop: [477, 282, 1202, 580] },
   dossie: { file: 'dossie', size: [1113, 783], crop: [50, 118, 1018, 602] },
   denuncias: { file: 'denuncias', size: [902, 748], crop: [21, 9, 855, 721] },
 };
@@ -215,9 +215,38 @@ function ProductScene({ stepIndex, onStep, onOpen }) {
     <div className="demo-bottom"><TagRow items={step.tags} /><div className="step-controls"><button className="icon-button" disabled={stepIndex === 0} onClick={() => { onStep(stepIndex - 1); setPlaying(false); }} aria-label="Etapa anterior" title="Etapa anterior"><ArrowLeft size={17} /></button><button className="icon-button" disabled={stepIndex === steps.length - 1} onClick={() => { onStep(stepIndex + 1); setPlaying(false); }} aria-label="Próxima etapa" title="Próxima etapa"><ArrowRight size={17} /></button></div></div>{playing && <div className="playback-track"><span key={stepIndex} /></div>}</div></div></section>;
 }
 
+function ScientificFoundation() {
+  const foundations = [
+    { icon: Scale, title: 'Documentos oficiais', subtitle: 'Normas e guias do MTE', description: 'Orientações para a gestão dos riscos no trabalho.' },
+    { icon: BookOpen, title: 'Pesquisas científicas', subtitle: 'Estudos e revisões da literatura', description: 'Evidências para apoiar a escolha das intervenções.' },
+    { icon: ClipboardList, title: 'Instrumentos de avaliação', subtitle: 'COPSOQ II/III · JSS · OLBI', description: 'Questionários estruturados para organizar os indicadores.' },
+  ];
+  return <div className="scientific-foundation" role="region" aria-label="Fontes da base científica">
+    <div className="science-heading"><span className="eyebrow">FONTES PARA FUNDAMENTAR AS SUGESTÕES</span></div>
+    <div className="science-cards">{foundations.map((item) => <article className="science-card" key={item.title}><span className="science-icon"><item.icon size={26} strokeWidth={1.5} /></span><h4>{item.title}</h4><b>{item.subtitle}</b><p>{item.description}</p></article>)}</div>
+    <div className="science-takeaway"><ShieldCheck size={21} /><p>A base fundamenta a sugestão. O contexto da empresa orienta a adaptação.</p></div>
+  </div>;
+}
+
+function ActionPlanVisual({ onOpen }) {
+  const fields = [
+    { label: 'Por quê?', icon: HeartPulse, value: 'Permitir recuperação durante o ritmo acelerado.' },
+    { label: 'Onde?', icon: MapPin, value: 'Contábil, inclusive no fechamento mensal.' },
+    { label: 'Quando?', icon: CalendarDays, value: '1–3 meses; piloto nos primeiros 30 dias.' },
+    { label: 'Quem?', icon: Users, value: 'Coordenador do Contábil + RH.' },
+    { label: 'Como?', icon: ClipboardList, value: 'Combinar dois horários por turno e afixar no mural.' },
+    { label: 'Quanto?', icon: Wallet, value: 'R$ 0–540 de investimento estimado.' },
+  ];
+  return <div className="action-plan-visual" role="region" aria-label="Plano de ação em sete perguntas">
+    <div className="plan-visual-heading"><div><span className="eyebrow">5W2H · EXEMPLO DO SENTINEL</span><h3>Uma sugestão. Sete respostas práticas.</h3></div><button className="plan-print-button" onClick={() => onOpen({ file: media.plano.file, title: 'Plano 5W2H — captura do sistema' })}><Maximize2 size={17} />Ver print do plano</button></div>
+    <div className="plan-main-action"><span className="plan-action-icon"><Sparkles size={25} /></span><div><span>O QUE FAZER?</span><h4>Pausas fixas no Contábil.</h4></div><span className="plan-proposal-label">Proposta da IA</span></div>
+    <dl className="plan-question-grid">{fields.map((field) => <div className="plan-question" key={field.label}><dt><field.icon size={18} /><span>{field.label}</span></dt><dd>{field.value}</dd></div>)}</dl>
+  </div>;
+}
+
 const ragStages = [
-  { title: 'Contexto + RAG', caption: 'Documentos da empresa', icon: Database, image: 'knowledge', points: ['Documentos', 'Políticas', 'Limites'] },
-  { title: 'Base científica', caption: 'Pesquisas + guias oficiais', icon: BookOpen, image: 'referencias', points: ['Instrumentos', 'Curadoria', 'Fontes rastreáveis'] },
+  { title: 'Base científica', caption: 'Pesquisas + guias oficiais', icon: BookOpen, image: 'science', points: ['Documentos oficiais', 'Pesquisas', 'Instrumentos'] },
+  { title: 'Contexto + RAG', caption: 'Documentos da empresa', icon: Database, image: 'rag', points: ['Documentos internos', 'Políticas', 'Contexto da empresa'] },
   { title: 'Plano 5W2H', caption: 'Sugestão para revisão', icon: Sparkles, image: 'plano', points: ['O quê', 'Como', 'Quem e quando'] },
 ];
 
@@ -233,9 +262,9 @@ function RagScene({ onOpen }) {
     return () => clearTimeout(timer);
   }, [phase, playing]);
   const current = ragStages[phase];
-  return <section className="scene rag-scene"><SceneTitle index="06" eyebrow="DIFERENCIAIS E FUNCIONAMENTO" title="A IA consulta antes de sugerir."><div className="rag-heading-tools"><span className="status-label"><BrainCircuit size={15} />RAG integrado</span><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} title={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} onClick={() => { if (!playing) setPhase(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></div></SceneTitle><p className="rag-plain-language">RAG, em linguagem simples: buscar informações relevantes nos documentos e usá-las como contexto para a resposta.</p>
+  return <section className="scene rag-scene"><SceneTitle index="06" eyebrow="DIFERENCIAIS E FUNCIONAMENTO" title="A IA consulta antes de sugerir."><div className="rag-heading-tools"><span className="status-label"><BrainCircuit size={15} />RAG integrado</span><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} title={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} onClick={() => { if (!playing) setPhase(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></div></SceneTitle><p className="rag-plain-language">{phase === 2 ? 'O plano organiza a recomendação em responsáveis, prazos e passos de execução.' : 'RAG, em linguagem simples: buscar informações relevantes nos documentos e usá-las como contexto para a resposta.'}</p>
     <div className={`rag-pipeline ${playing ? 'is-playing' : ''}`} role="tablist" aria-label="Etapas do RAG">{ragStages.map((item, index) => <React.Fragment key={item.title}><button role="tab" aria-selected={phase === index} onClick={() => { setPhase(index); setPlaying(false); }} className={phase === index ? 'active' : ''}><span className="pipeline-icon"><item.icon size={22} /></span><span><b>{item.title}</b><small>{item.caption}</small></span><span className="pipeline-number">0{index + 1}</span></button>{index < 2 && <div className={`pipeline-line ${phase > index ? 'passed' : ''}`}><span /><ArrowRight size={14} /></div>}</React.Fragment>)}</div>
-    <div className="rag-workspace"><div className="rag-detail">{current.image === 'knowledge' ? <KnowledgeFlow /> : <ProductScreen key={current.image} image={current.image} title={current.title} onOpen={onOpen} />}<div className="screen-caption"><TagRow items={current.points} /></div></div><aside className="rag-aside"><div className="rag-core"><BrainCircuit size={35} strokeWidth={1.5} /><span>Ciência, contexto e ação.</span><small>Uma base para cada recomendação</small></div><div className="differential-item"><ClipboardList size={19} /><div><b>Instrumentos estruturados</b><span>COPSOQ II/III · JSS · OLBI</span></div></div><div className="differential-item"><Settings2 size={19} /><div><b>Filtros de viabilidade</b><span>Orçamento, RH e histórico</span></div></div><div className="differential-item"><BookOpen size={19} /><div><b>Referências rastreáveis</b><span>Pesquisas e documentos oficiais</span></div></div><div className="differential-item"><LockKeyhole size={19} /><div><b>Controle de acesso</b><span>PostgreSQL / Supabase + RLS</span></div></div><div className="human-decision"><ShieldCheck size={20} /><b>Revisão humana</b></div></aside></div><div className="technical-foundation"><span>Next.js + React + TypeScript</span><span>Respostas anonimizadas</span><span>IA + recuperação de contexto</span></div>
+    <div className="rag-workspace"><div className="rag-detail">{current.image === 'science' ? <ScientificFoundation /> : current.image === 'plano' ? <ActionPlanVisual onOpen={onOpen} /> : <ProductScreen key={current.image} image={current.image} title={current.title} onOpen={onOpen} />}<div className="screen-caption"><TagRow items={current.points} /></div></div><aside className="rag-aside"><div className="rag-core"><BrainCircuit size={35} strokeWidth={1.5} /><span>Ciência, contexto e ação.</span><small>Uma base para cada recomendação</small></div><div className="differential-item"><ClipboardList size={19} /><div><b>Instrumentos estruturados</b><span>COPSOQ II/III · JSS · OLBI</span></div></div><div className="differential-item"><Settings2 size={19} /><div><b>Filtros de viabilidade</b><span>Orçamento, RH e histórico</span></div></div><div className="differential-item"><BookOpen size={19} /><div><b>Referências rastreáveis</b><span>Pesquisas e documentos oficiais</span></div></div><div className="differential-item"><LockKeyhole size={19} /><div><b>Controle de acesso</b><span>PostgreSQL / Supabase + RLS</span></div></div><div className="human-decision"><ShieldCheck size={20} /><b>Revisão humana</b></div></aside></div><div className="technical-foundation"><span>Next.js + React + TypeScript</span><span>Respostas anonimizadas</span><span>IA + recuperação de contexto</span></div>
   </section>;
 }
 

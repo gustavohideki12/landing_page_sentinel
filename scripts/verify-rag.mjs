@@ -29,7 +29,7 @@ try {
         for (let i = 1; i < children.length; i++) {
           if (rect(children[i]).top < rect(children[i - 1]).bottom - 1) issues.push(`Overlapping sections: ${children[i - 1].className} / ${children[i].className}`);
         }
-        scene.querySelectorAll('.knowledge-flow,.knowledge-documents,.rag-detail,.rag-aside').forEach(childrenInside);
+        scene.querySelectorAll('.scientific-foundation,.science-cards,.science-card,.action-plan-visual,.plan-question-grid,.plan-question,.rag-detail,.rag-aside').forEach(childrenInside);
         const main = scene.closest('main');
         if (main.scrollWidth > main.clientWidth + 1) issues.push('Horizontal overflow');
         return issues;

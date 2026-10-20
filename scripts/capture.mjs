@@ -12,9 +12,9 @@ try {
     sizes.push(await page.locator('main').evaluate((el, scene) => ({ scene, width: el.scrollWidth - el.clientWidth, height: el.scrollHeight - el.clientHeight, children: [...el.querySelector('.scene').children].map((node) => ({ class: node.className, height: Math.round(node.getBoundingClientRect().height) })) }), i));
     await page.screenshot({ path: `artifacts/projector-${i}.png` });
     if (i === 5) {
-      await page.getByRole('tab', { name: /Base científica/ }).click();
+      await page.getByRole('tab', { name: /Contexto \+ RAG/ }).click();
       await page.waitForTimeout(500);
-      console.log('Science image:', await page.locator('.screen-canvas').evaluate((el) => ({ width: el.offsetWidth, height: el.offsetHeight, img: el.querySelector('img')?.naturalWidth })));
+      console.log('RAG image:', await page.locator('.screen-canvas').evaluate((el) => ({ width: el.offsetWidth, height: el.offsetHeight, img: el.querySelector('img')?.naturalWidth })));
       await page.screenshot({ path: 'artifacts/projector-science.png' });
     }
   }
