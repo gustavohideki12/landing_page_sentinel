@@ -6,6 +6,7 @@ import {
   ClipboardList, Clock3, Fingerprint, HeartPulse, LockKeyhole, MessageCircle,
   Maximize2, Minimize2, Pause, Play, RotateCcw, Settings2,
   ShieldCheck, Sparkles, Users, Scale, FileText, Database, Home, Award, UploadCloud, X, ZoomIn, ZoomOut,
+  Linkedin, ExternalLink, Type, Eye, Sun, Moon,
 } from 'lucide-react';
 
 const sources = {
@@ -20,8 +21,9 @@ const chapters = [
   { title: 'A lacuna', icon: CircleHelp }, { title: 'A solução', icon: ShieldCheck },
   { title: 'Produto', icon: Play }, { title: 'IA + contexto', icon: BrainCircuit },
   { title: 'Na prática', icon: Users }, { title: 'O valor', icon: CheckCheck },
+  { title: 'Contato', icon: Linkedin },
 ];
-const sceneSlugs = ['abertura', 'problema', 'lacuna', 'solucao', 'produto', 'inteligencia', 'na-pratica', 'valor'];
+const sceneSlugs = ['abertura', 'problema', 'lacuna', 'solucao', 'produto', 'inteligencia', 'na-pratica', 'valor', 'contato'];
 const sceneFromHash = () => Math.max(0, sceneSlugs.indexOf(window.location.hash.slice(1)));
 
 const media = {
@@ -94,8 +96,26 @@ function SourcesDialog({ onClose }) {
 }
 
 function ImpactScene() {
+  const linkedinUrl = 'https://www.linkedin.com/company/sentinel-gestao-de-seguranca';
   return <section className="scene impact-scene" aria-label="Abertura de impacto">
-    <div className="impact-heading"><span className="eyebrow"><span>01</span>ANTES DO SENTINEL</span><h1>Os sinais não esperam.</h1><span className="impact-subtitle">Mas podem passar despercebidos.</span></div>
+    <div className="impact-heading">
+      <div className="impact-header-top">
+        <span className="eyebrow"><span>01</span>ANTES DO SENTINEL</span>
+        <a 
+          href={linkedinUrl} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="linkedin-fast-button"
+          title="Visitar página do LinkedIn da Sentinel"
+        >
+          <Linkedin size={15} />
+          <span>LinkedIn Sentinel</span>
+          <ArrowUpRight size={13} />
+        </a>
+      </div>
+      <h1>Os sinais não esperam.</h1>
+      <span className="impact-subtitle">Mas podem passar despercebidos.</span>
+    </div>
     <div className="overload-story" role="img" aria-label="Ilustração: demandas se acumulam ao redor de uma equipe; cansaço e silêncio aparecem antes de um afastamento.">
       <div className="incoming-work"><span className="story-label">A ROTINA ACELERA</span><div className="incoming-card incoming-one"><CalendarDays size={21} /><div><b>Prazo antecipado</b><span>Entrega para hoje</span></div><Clock3 size={15} /></div><div className="incoming-card incoming-two"><ClipboardList size={21} /><div><b>Mais uma demanda</b><span>A fila continua</span></div><span className="work-lines"><i /><i /><i /></span></div><div className="incoming-card incoming-three"><MessageCircle size={21} /><div><b>Mensagem fora de hora</b><span>Uma última pendência</span></div></div></div>
       <div className="pressure-connectors" aria-hidden="true"><i /><i /><i /><ArrowRight size={20} /></div>
@@ -229,6 +249,117 @@ function ValueScene({ onOpen }) {
   return <section className="scene value-scene"><SceneTitle index="08" eyebrow="VALOR GERADO" title="Perceber os sinais. Agir com direção." /><div className="value-columns">{valueItems.map((item, index) => <article key={item.title} className="value-column" style={{ '--entry-delay': `${index * 180}ms` }}><div className="value-column-heading"><item.icon size={25} strokeWidth={1.5} /><h3>{item.title}</h3><span>0{index + 1}</span></div><ProductScreen image={item.image} title={item.title} onOpen={onOpen} /><div className="value-change"><span>{item.before}</span><ArrowRight size={17} /><b>{item.after}</b></div></article>)}</div><div className="value-stakeholders"><div><Fingerprint size={22} /><span><b>Colaborador</b><small>Escuta protegida</small></span></div><div><Users size={22} /><span><b>RH</b><small>Decisões orientadas</small></span></div><div><ShieldCheck size={22} /><span><b>Organização</b><small>Histórico e acompanhamento</small></span></div></div><div className="value-close"><span>Sentinel<span>.</span></span><b>Da escuta à ação.</b><small>Valor operacional demonstrado. Impacto sobre afastamentos e retorno financeiro ainda não mensurados.</small></div></section>;
 }
 
+function ContactScene() {
+  const linkedinUrl = 'https://www.linkedin.com/company/sentinel-gestao-de-seguranca';
+  return (
+    <section className="scene contact-scene" aria-label="Contato e Conexão">
+      <SceneTitle index="09" eyebrow="CONECTE-SE AO SENTINEL" title="Vamos transformar a segurança psicológica juntos." />
+      <div className="contact-container">
+        <a 
+          href={linkedinUrl} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="linkedin-preview-card"
+          aria-label="Abrir perfil da Sentinel no LinkedIn"
+        >
+          <div className="card-banner-wrapper">
+            <img 
+              src="/images/sentinel-linkedin-banner.png" 
+              alt="Sentinel no LinkedIn - Inteligência contextual para a segurança psicológica corporativa" 
+              className="card-banner-img"
+            />
+            <div className="card-badge">
+              <Linkedin size={18} />
+              <span>LinkedIn Oficial</span>
+            </div>
+          </div>
+          <div className="card-body">
+            <div className="card-header-row">
+              <div>
+                <h3 className="card-company-name">Sentinel</h3>
+                <p className="card-headline">Segurança psicológica, gestão de riscos psicossociais e conformidade com a NR-1.</p>
+                <span className="card-subtext">Desenvolvimento de software · São Paulo, Brasil</span>
+              </div>
+            </div>
+            <div className="card-footer-action">
+              <span className="card-link-text">
+                <Linkedin size={20} />
+                <b>Seguir e contatar no LinkedIn</b>
+              </span>
+              <span className="card-btn-action">
+                <span>Acessar perfil</span>
+                <ArrowUpRight size={18} />
+              </span>
+            </div>
+          </div>
+        </a>
+
+        <div className="contact-side-info">
+          <div className="contact-quick-stat">
+            <ShieldCheck size={28} strokeWidth={1.5} />
+            <div>
+              <b>Conecte-se com nossa equipe</b>
+              <p>Acompanhe novidades, atualizações regulatórias sobre a NR-1 e o desenvolvimento da plataforma.</p>
+            </div>
+          </div>
+          <div className="contact-methods">
+            <a 
+              href={linkedinUrl} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="contact-pill-button primary"
+            >
+              <Linkedin size={20} />
+              <span>Conectar no LinkedIn</span>
+              <ExternalLink size={16} />
+            </a>
+          </div>
+          <div className="contact-qr-note">
+            <small>Disponível para computadores e dispositivos móveis. Clique no card ou no botão acima para abrir a página institucional.</small>
+          </div>
+        </div>
+      </div>
+      <div className="value-close">
+        <span>Sentinel<span>.</span></span>
+        <b>Da escuta à ação.</b>
+        <small>Instituto Mauá de Tecnologia · Sistemas de Informação · 2026</small>
+      </div>
+    </section>
+  );
+}
+
+function AccessibilityDialog({ fontSize, onFontSizeChange, onClose }) {
+  return (
+    <Dialog title="Acessibilidade" onClose={onClose} className="a11y-dialog">
+      <div className="a11y-modal-content">
+        <div className="a11y-section">
+          <span className="a11y-section-title"><Type size={16} />Tamanho da fonte</span>
+          <div className="a11y-buttons-group">
+            <button 
+              className={`a11y-option-btn ${fontSize === 'normal' ? 'active' : ''}`}
+              onClick={() => onFontSizeChange('normal')}
+            >
+              Normal (100%)
+            </button>
+            <button 
+              className={`a11y-option-btn ${fontSize === 'large' ? 'active' : ''}`}
+              onClick={() => onFontSizeChange('large')}
+            >
+              Grande (+15%)
+            </button>
+            <button 
+              className={`a11y-option-btn ${fontSize === 'xlarge' ? 'active' : ''}`}
+              onClick={() => onFontSizeChange('xlarge')}
+            >
+              Muito Grande (+30%)
+            </button>
+          </div>
+        </div>
+      </div>
+    </Dialog>
+  );
+}
+
 export default function App() {
   const [scene, setScene] = useState(sceneFromHash);
   const [step, setStep] = useState(0);
@@ -237,6 +368,8 @@ export default function App() {
   const [fullscreen, setFullscreen] = useState(false);
   const [presenterOpen, setPresenterOpen] = useState(false);
   const [indexOpen, setIndexOpen] = useState(false);
+  const [a11yOpen, setA11yOpen] = useState(false);
+  const [fontSize, setFontSize] = useState('normal');
   const scrollArea = useRef(null);
   const wheelState = useRef({ amount: 0, last: 0, lockedUntil: 0 });
   const navigate = (next) => { setScene(Math.max(0, Math.min(chapters.length - 1, next))); setIndexOpen(false); scrollArea.current?.scrollTo({ top: 0 }); };
@@ -251,7 +384,7 @@ export default function App() {
   }, []);
   useEffect(() => {
     const handler = (event) => {
-      if (selected || sourcesOpen || indexOpen || event.ctrlKey || event.altKey || event.metaKey || ['INPUT', 'SELECT', 'TEXTAREA'].includes(event.target.tagName)) return;
+      if (selected || sourcesOpen || indexOpen || a11yOpen || event.ctrlKey || event.altKey || event.metaKey || ['INPUT', 'SELECT', 'TEXTAREA'].includes(event.target.tagName)) return;
       if (event.key.toLowerCase() === 'n') { event.preventDefault(); setPresenterOpen((value) => !value); return; }
       if (event.key.toLowerCase() === 'f') { event.preventDefault(); toggleFullscreen(); return; }
       if (event.target.closest('[role="tablist"],.process-rail,.case-stages,.presenter-panel')) return;
@@ -262,11 +395,11 @@ export default function App() {
     };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [scene, selected, sourcesOpen, indexOpen]);
+  }, [scene, selected, sourcesOpen, indexOpen, a11yOpen]);
   useEffect(() => {
     const area = scrollArea.current;
     const handler = (event) => {
-      if (selected || sourcesOpen || indexOpen || event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      if (selected || sourcesOpen || indexOpen || a11yOpen || event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       // Let nested rails and long scenes consume their own scrolling first.
       for (let el = event.target; el && el !== area; el = el.parentElement) {
         if (el.scrollHeight > el.clientHeight + 2 && /auto|scroll/.test(getComputedStyle(el).overflowY)) return;
@@ -284,7 +417,7 @@ export default function App() {
     };
     area.addEventListener('wheel', handler, { passive: true });
     return () => area.removeEventListener('wheel', handler);
-  }, [scene, selected, sourcesOpen, indexOpen]);
+  }, [scene, selected, sourcesOpen, indexOpen, a11yOpen]);
   useEffect(() => {
     const handler = () => setFullscreen(Boolean(document.fullscreenElement));
     document.addEventListener('fullscreenchange', handler);
@@ -302,12 +435,13 @@ export default function App() {
     event.preventDefault(); event.stopPropagation(); tabs[index].click(); tabs[index].focus();
   };
   const lastScene = scene === chapters.length - 1;
-  return <div className={`pitch-app ${scene === 0 ? 'opening-active' : ''}`} onKeyDown={onTabKeys}><a className="skip-link" href="#conteudo" onClick={(event) => { event.preventDefault(); scrollArea.current?.focus(); }}>Pular para a apresentação</a><header className="app-header"><Brand onClick={() => navigate(0)} /><nav className="chapter-nav" aria-label="Cenas do pitch">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : ''} onClick={() => navigate(index)} aria-current={scene === index ? 'page' : undefined} title={item.title}><span className="chapter-number">0{index + 1}</span><item.icon size={16} /><span className="chapter-name">{item.title}</span></button>)}</nav><div className="header-tools"><button className="icon-button index-button" aria-label="Índice da apresentação" onClick={() => setIndexOpen(true)} title="Índice da apresentação"><ClipboardList size={17} /></button><button className="icon-button fullscreen-button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Sair da tela cheia' : 'Tela cheia'} title={fullscreen ? 'Sair da tela cheia · F' : 'Tela cheia · F'}>{fullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}</button></div></header>
-    <main id="conteudo" tabIndex={-1} ref={scrollArea} className={`scene-area scene-area-${scene}`}><div key={scene} className="scene-transition">{scene === 0 && <ImpactScene />}{scene === 1 && <ProblemScene onSources={() => setSourcesOpen(true)} />}{scene === 2 && <GapScene />}{scene === 3 && <SolutionScene onOpen={setSelected} />}{scene === 4 && <ProductScene stepIndex={step} onStep={setStep} onOpen={setSelected} />}{scene === 5 && <RagScene onOpen={setSelected} />}{scene === 6 && <CaseScene onOpen={setSelected} />}{scene === 7 && <ValueScene onOpen={setSelected} />}</div></main>
+  return <div className={`pitch-app ${scene === 0 ? 'opening-active' : ''} a11y-font-${fontSize}`} onKeyDown={onTabKeys}><a className="skip-link" href="#conteudo" onClick={(event) => { event.preventDefault(); scrollArea.current?.focus(); }}>Pular para a apresentação</a><header className="app-header"><Brand onClick={() => navigate(0)} /><nav className="chapter-nav" aria-label="Cenas do pitch">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : ''} onClick={() => navigate(index)} aria-current={scene === index ? 'page' : undefined} title={item.title}><span className="chapter-number">0{index + 1}</span><item.icon size={16} /><span className="chapter-name">{item.title}</span></button>)}</nav><div className="header-tools"><button className="icon-button a11y-button" aria-label="Opções de acessibilidade" onClick={() => setA11yOpen(true)} title="Acessibilidade (tamanho da fonte)"><Type size={17} /></button><button className="icon-button index-button" aria-label="Índice da apresentação" onClick={() => setIndexOpen(true)} title="Índice da apresentação"><ClipboardList size={17} /></button><button className="icon-button fullscreen-button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Sair da tela cheia' : 'Tela cheia'} title={fullscreen ? 'Sair da tela cheia · F' : 'Tela cheia · F'}>{fullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}</button></div></header>
+    <main id="conteudo" tabIndex={-1} ref={scrollArea} className={`scene-area scene-area-${scene}`}><div key={scene} className="scene-transition">{scene === 0 && <ImpactScene />}{scene === 1 && <ProblemScene onSources={() => setSourcesOpen(true)} />}{scene === 2 && <GapScene />}{scene === 3 && <SolutionScene onOpen={setSelected} />}{scene === 4 && <ProductScene stepIndex={step} onStep={setStep} onOpen={setSelected} />}{scene === 5 && <RagScene onOpen={setSelected} />}{scene === 6 && <CaseScene onOpen={setSelected} />}{scene === 7 && <ValueScene onOpen={setSelected} />}{scene === 8 && <ContactScene />}</div></main>
     <div className="sr-only" aria-live="polite" aria-atomic="true">Cena {scene + 1} de {chapters.length}: {chapters[scene].title}</div>
-    <footer className="presentation-footer"><div className="footer-tools"><button className="footer-info" onClick={() => setSourcesOpen(true)}><CircleHelp size={15} /><span>Fontes e projeto</span></button><button className={`footer-info rehearsal-button ${presenterOpen ? 'active' : ''}`} aria-pressed={presenterOpen} onClick={() => setPresenterOpen(!presenterOpen)} title="Roteiro de ensaio · N"><BookOpen size={15} /><span>Ensaiar</span></button></div><div className="scene-pagination" aria-label="Progresso da apresentação">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : index < scene ? 'visited' : ''} onClick={() => navigate(index)} aria-label={`Cena ${index + 1}: ${item.title}`} title={item.title}><span /></button>)}</div><div className="presentation-controls"><span className="scene-counter">0{scene + 1}<i> / 0{chapters.length}</i></span><button className="icon-button" disabled={scene === 0} onClick={() => navigate(scene - 1)} aria-label="Cena anterior" title="Cena anterior"><ArrowLeft size={17} /></button><button className="button button-blue next-scene" aria-label={lastScene ? 'Reiniciar pitch' : 'Próximo'} title={lastScene ? 'Reiniciar pitch' : 'Próximo'} onClick={() => { if (lastScene) { setStep(0); navigate(0); } else navigate(scene + 1); }}><span>{lastScene ? 'Reiniciar' : 'Próximo'}</span>{lastScene ? <RotateCcw size={16} /> : <ArrowRight size={16} />}</button></div></footer>
+    <footer className="presentation-footer"><div className="footer-tools"><button className="footer-info" onClick={() => setSourcesOpen(true)}><CircleHelp size={15} /><span>Fontes e projeto</span></button><button className="footer-info" onClick={() => setA11yOpen(true)} title="Acessibilidade"><Type size={15} /><span>Acessibilidade</span></button><button className={`footer-info rehearsal-button ${presenterOpen ? 'active' : ''}`} aria-pressed={presenterOpen} onClick={() => setPresenterOpen(!presenterOpen)} title="Roteiro de ensaio · N"><BookOpen size={15} /><span>Ensaiar</span></button></div><div className="scene-pagination" aria-label="Progresso da apresentação">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : index < scene ? 'visited' : ''} onClick={() => navigate(index)} aria-label={`Cena ${index + 1}: ${item.title}`} title={item.title}><span /></button>)}</div><div className="presentation-controls"><span className="scene-counter">0{scene + 1}<i> / 0{chapters.length}</i></span><button className="icon-button" disabled={scene === 0} onClick={() => navigate(scene - 1)} aria-label="Cena anterior" title="Cena anterior"><ArrowLeft size={17} /></button><button className="button button-blue next-scene" aria-label={lastScene ? 'Reiniciar pitch' : 'Próximo'} title={lastScene ? 'Reiniciar pitch' : 'Próximo'} onClick={() => { if (lastScene) { setStep(0); navigate(0); } else navigate(scene + 1); }}><span>{lastScene ? 'Reiniciar' : 'Próximo'}</span>{lastScene ? <RotateCcw size={16} /> : <ArrowRight size={16} />}</button></div></footer>
     {presenterOpen && <PresenterPanel scene={scene} onClose={() => setPresenterOpen(false)} />}
     {indexOpen && <Dialog title="Escolha um capítulo" onClose={() => setIndexOpen(false)} className="index-dialog"><nav className="chapter-index" aria-label="Índice completo">{chapters.map((item, i) => <button key={item.title} onClick={() => navigate(i)} aria-current={scene === i ? 'page' : undefined}><span>0{i + 1}</span><item.icon size={23} /><b>{item.title}</b><ArrowRight size={18} /></button>)}</nav><p className="index-help">Role ou use as setas para navegar · F: tela cheia · N: roteiro de ensaio · Home / End: início / fim</p></Dialog>}
+    {a11yOpen && <AccessibilityDialog fontSize={fontSize} onFontSizeChange={setFontSize} onClose={() => setA11yOpen(false)} />}
     {selected && <ImageDialog selected={selected} onClose={() => setSelected(null)} />}{sourcesOpen && <SourcesDialog onClose={() => setSourcesOpen(false)} />}
   </div>;
 }
