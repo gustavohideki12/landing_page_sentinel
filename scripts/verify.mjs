@@ -64,7 +64,7 @@ try {
   assert.equal(await page.locator('.knowledge-flow').count(), 1);
   await page.getByRole('tab', { name: /Base científica/ }).click();
   await page.waitForFunction(() => document.querySelector('.screen-canvas')?.getBoundingClientRect().width > 200 && document.querySelector('.screen-pixels img')?.complete);
-  assert.match(await page.locator('.screen-pixels img').getAttribute('src'), /metodologia/);
+  assert.match(await page.locator('.screen-pixels img').getAttribute('src'), /rag-aplicado/);
   assert.match(await page.locator('.technical-foundation').innerText(), /TypeScript/);
   await page.screenshot({ path: 'artifacts/v3-science.png' });
   await page.getByRole('tab', { name: /Plano 5W2H/ }).click();
@@ -121,7 +121,7 @@ try {
   assert.ok((await motion.locator('.screen-canvas').boundingBox()).height < 350, 'Pausing must preserve the chart detail');
   await chapter(motion, 5);
   await motion.waitForTimeout(3700);
-  assert.match(await motion.locator('.screen-pixels img').getAttribute('src'), /metodologia/);
+  assert.match(await motion.locator('.screen-pixels img').getAttribute('src'), /rag-aplicado/);
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ status: 'passed', checks: ['eight pitch chapters', 'official absence series and legal dates', 'original product screenshots', 'no numbered overlays', 'ten product stages', 'RAG diagram and scientific methodology', 'dossier and Sentinel certificate', 'anonymous reports', 'automatic progression and dashboard chart view', 'full-resolution zoom', 'responsive desktop and mobile layouts', 'no runtime errors'] }, null, 2));
 } finally {

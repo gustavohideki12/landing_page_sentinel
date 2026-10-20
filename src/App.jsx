@@ -36,7 +36,7 @@ const media = {
   kanban: { file: 'kanban-v2', size: [1353, 758], crop: [40, 177, 1280, 356] },
   plano: { file: 'plano-v2', size: [575, 854], crop: [8, 0, 557, 465] },
   plano5w2h: { file: 'plano-v2', size: [575, 854], crop: [8, 500, 557, 345] },
-  referencias: { file: 'metodologia', size: [888, 867], crop: [20, 16, 855, 493] },
+  referencias: { file: 'rag-aplicado', size: [1917, 872], crop: [477, 282, 1202, 580] },
   dossie: { file: 'dossie', size: [1113, 783], crop: [50, 118, 1018, 602] },
   denuncias: { file: 'denuncias', size: [902, 748], crop: [21, 9, 855, 721] },
 };
