@@ -30,7 +30,7 @@ try {
   const response = await page.goto(`${base}/conheca/`, { waitUntil: 'networkidle' });
   assert.equal(response.status(), 200);
   await page.evaluate(() => document.fonts.ready);
-  assert.match(await page.title(), /Toda equipe merece ser ouvida/);
+  assert.match(await page.title(), /Por trás de cada meta, existe uma pessoa/);
   assert.equal(await page.locator('h1').count(), 1);
   assert.equal(await page.locator('.pitch-app').count(), 0);
   await page.screenshot({ path: 'artifacts/comercial-390-inicio.png' });

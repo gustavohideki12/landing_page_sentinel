@@ -58,6 +58,8 @@ A comparação usa os números da captura: índice de saúde 48 → 79 e dimens�
 
 ## Executar e conferir
 
+A abertura comercial usa o slogan da campanha da equipe no LinkedIn: **“Por trás de cada meta, existe uma pessoa.”**, acompanhado de **“Como a sua empresa cuida delas?”**. A referência visual aparece no azul profundo, nos detalhes em ciano, nos contornos de luz e na identificação Eureka 2026 · Stand 26. A abertura e o contato recebem a identidade da campanha; as explicações e as capturas do produto mantêm a estrutura clara aprovada.
+
 ```powershell
 npm run dev -- --port 5175
 ```
