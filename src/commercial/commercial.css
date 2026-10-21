@@ -229,7 +229,7 @@ img { display: block; max-width: 100%; }
 .c-contact::before, .c-contact::after { content: ''; position: absolute; z-index: -1; border: 1px solid #65dedc26; width: 490px; height: 490px; border-radius: 50%; top: -40px; right: -350px; }
 .c-contact::after { width: 650px; height: 650px; right: -430px; top: -120px; }
 .c-contact-inner { width: min(calc(100% - 48px), 700px); margin: auto; padding-block: 48px 35px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.c-contact-emblem { background: white; height: 65px; width: 65px; border-radius: 19px; padding: 3px; box-shadow: 0 6px 20px #26378922; margin-bottom: 26px; transform: rotate(-5deg); overflow: hidden; }
+.c-contact-emblem { background: white; height: 65px; width: 65px; border-radius: 19px; padding: 3px; box-shadow: 0 6px 20px #26378922; margin-bottom: 26px; overflow: hidden; }
 .c-contact-emblem > img { height: 100%; width: 100%; object-fit: cover; }
 .c-contact .c-kicker { color: #78d1cd; font-size: 8px; letter-spacing: .12em; }
 .c-contact h2 { font-size: clamp(33px, 8.7vw, 55px); line-height: 1.13; letter-spacing: -.05em; font-weight: 550; margin-top: 18px; }
