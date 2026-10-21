@@ -69,8 +69,17 @@ Prévia: `http://127.0.0.1:5175/conheca/`. Esse endereço é local. O QR code do
 ```powershell
 $env:PLAYWRIGHT_CHANNEL='msedge'
 node scripts/verify-commercial.mjs http://127.0.0.1:5175
+node scripts/verify-mobile.mjs http://127.0.0.1:5175
 node scripts/verify-flow.mjs http://127.0.0.1:5175
 npm run build
 ```
 
 O build inclui a apresentação em `/` e a página comercial em `/conheca/`. A publicação do site usa o diretório `dist`; o envio do código ao GitHub não configura hospedagem por si só.
+
+## Revisão de responsividade mobile
+
+`verify-mobile.mjs` confere 13 formatos em emulação com toque no Edge/Chromium: 320×568, 360×640, 375×667, 390×844, 412×915, 430×932, 568×260, 568×320, 667×375, 740×360, 844×390, 600×960 e 768×1024. A altura de 260 px cobre uma situação de pouco espaço útil na horizontal. O relatório é salvo em `artifacts/mobile-review.json`.
+
+A revisão verifica texto e cartões sem corte horizontal, menu, abas, comparação, exemplo do RAG, denúncias e controles do visualizador de imagens. A imagem e a explicação rolam dentro do diálogo, mantendo fechar e zoom acessíveis. O menu tem rolagem própria quando a altura é curta; a barra de contato inferior é ocultada em telas baixas, que mantêm o LinkedIn no cabeçalho. As margens consideram as áreas seguras do aparelho e o zoom do navegador permanece habilitado.
+
+Também foram conferidos o último link do menu em tela baixa, a rolagem da imagem no tamanho original e a mudança de orientação sem recarregar. Esta validação usa emulação no Edge/Chromium; não representa um teste em iPhones ou Androids físicos nem uma execução do Safari.
