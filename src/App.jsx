@@ -178,10 +178,26 @@ function ContactScene() {
 
         <aside className="contact-side-info contact-mobile-card" aria-labelledby="contact-mobile-title">
           <div className="contact-mobile-heading"><span className="eyebrow">CONTINUE PELO CELULAR</span><h3 id="contact-mobile-title">Conheça o Sentinel</h3><p>Aponte a câmera e descubra como transformar escuta em ação.</p></div>
-          <a className="contact-qr-link" href="/conheca/" target="_blank" rel="noopener noreferrer" aria-label="Abrir o site do Sentinel para celular">
-            <span className="contact-qr-frame"><img src="/images/qr-site-mobile.png" width="300" height="300" alt="QR code para acessar o site do Sentinel no celular" /></span>
-            <span className="contact-mobile-link">Acessar o site<ArrowUpRight size={15} aria-hidden="true" /></span>
-          </a>
+            <div className="contact-qr-note">
+              <div className="contact-scan-code">
+                <span className="contact-scan-step"><span>1</span> Escaneie com o celular</span>
+                <a className="contact-qr-link" href="/conheca/" target="_blank" rel="noopener noreferrer" aria-label="Abrir o site do Sentinel para celular">
+                  <span className="contact-qr-frame"><img src="/images/qrcode-sentinel.png" width="176" height="176" alt="QR code para acessar o site do Sentinel no celular" /></span>
+                  <span className="contact-mobile-link">Acessar o site<ArrowUpRight size={15} aria-hidden="true" /></span>
+                </a>
+              </div>
+              <div className="contact-scan-guide">
+                <span className="contact-scan-step"><span>2</span> Continue no navegador</span>
+                <p>Se esta tela aparecer, toque em <strong>“Sem o aplicativo, continue no navegador”</strong>, na área circulada em vermelho.</p>
+                <figure className="contact-scan-example">
+                  <div className="contact-scan-capture">
+                    <img src="/images/qr-instrucao-navegador.png" alt="Exemplo da tela após escanear o QR: a opção Sem o aplicativo, continue no navegador fica abaixo do anúncio." width="1320" height="1702" />
+                    <svg viewBox="0 1030 1320 510" aria-hidden="true" focusable="false"><ellipse cx="660" cy="1430" rx="505" ry="61" /></svg>
+                  </div>
+                  <figcaption>Toque na opção destacada para continuar.</figcaption>
+                </figure>
+              </div>
+            </div>
         </aside>
       </div>
       <div className="value-close">
