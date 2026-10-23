@@ -341,8 +341,21 @@ function ContactScene() {
             </a>
           </div>
           <div className="contact-qr-note">
-            <img className="contact-qr-image" src="/images/qrcode-sentinel.png" alt="QR code de contato da Sentinel" width="176" height="176" />
-            <small>Escaneie o QR code com a câmera do celular ou clique no card ou no botão acima para abrir a página institucional.</small>
+            <div className="contact-scan-code">
+              <span className="contact-scan-step"><span>1</span> Escaneie com o celular</span>
+              <img className="contact-qr-image" src="/images/qrcode-sentinel.png" alt="QR code de contato da Sentinel" width="176" height="176" />
+            </div>
+            <div className="contact-scan-guide">
+              <span className="contact-scan-step"><span>2</span> Continue no navegador</span>
+              <p>Se esta tela aparecer, toque em <strong>“Sem o aplicativo, continue no navegador”</strong>, na área circulada em vermelho.</p>
+              <figure className="contact-scan-example">
+                <div className="contact-scan-capture">
+                  <img src="/images/qr-instrucao-navegador.png" alt="Exemplo da tela após escanear o QR: a opção Sem o aplicativo, continue no navegador fica abaixo do anúncio." width="1320" height="1702" />
+                  <svg viewBox="0 1030 1320 510" aria-hidden="true" focusable="false"><ellipse cx="660" cy="1430" rx="505" ry="61" /></svg>
+                </div>
+                <figcaption>Toque na opção destacada para continuar.</figcaption>
+              </figure>
+            </div>
           </div>
         </div>
       </div>

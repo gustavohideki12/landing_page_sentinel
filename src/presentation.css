@@ -223,8 +223,25 @@
 .contact-pill-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; border-radius: 8px; font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.2s ease; cursor: pointer; }
 .contact-pill-button.primary { background: #0a66c2; color: #ffffff; box-shadow: 0 4px 14px rgba(10, 102, 194, 0.25); }
 .contact-pill-button.primary:hover { background: #084d94; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(10, 102, 194, 0.35); }
-.contact-qr-image { display: block; width: 176px; max-width: 100%; height: auto; margin: 0 auto 12px; }
-.contact-qr-note small { font-size: 11px; color: #708a80; line-height: 1.5; display: block; text-align: center; }
+.contact-qr-note { display: grid; grid-template-columns: 144px minmax(0, 1fr); align-items: start; gap: 18px; padding-top: 18px; border-top: 1px solid #d4e2dc; }
+.contact-qr-image { display: block; width: 144px; max-width: 100%; height: auto; margin: 12px auto 0; border-radius: 8px; }
+.contact-scan-step { display: flex; align-items: center; gap: 6px; color: #244d40; font-size: 12px; font-weight: 650; line-height: 1.5; }
+.contact-scan-step > span { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: 21px; height: 21px; background: #dfebe4; border-radius: 50%; color: #315e48; font-size: 11px; }
+.contact-scan-guide { min-width: 0; }
+.contact-scan-guide > p { margin: 10px 0 12px; color: #4c685f; font-size: 12px; line-height: 1.6; }
+.contact-scan-guide strong { color: #244d40; font-weight: 600; }
+.contact-scan-example { margin: 0; padding: 5px; border: 1px solid #dce5df; border-radius: 9px; background: #fff; }
+.contact-scan-capture { position: relative; aspect-ratio: 1320 / 510; overflow: hidden; border-radius: 5px; background: #f7f8fc; }
+.contact-scan-capture > img { position: absolute; top: -201.9608%; left: 0; display: block; width: 100%; max-width: none; height: auto; }
+.contact-scan-capture > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.contact-scan-capture ellipse { fill: none; stroke: #d92d32; stroke-width: 14; }
+.contact-scan-example figcaption { padding: 7px 4px 3px; text-align: center; color: #6b7e73; font-size: 10px; line-height: 1.5; }
+
+@media (min-width: 901px) and (max-width: 1200px), (max-width: 430px) {
+  .contact-qr-note { grid-template-columns: 1fr; }
+  .contact-scan-code .contact-scan-step { justify-content: center; }
+  .contact-qr-image { width: 176px; }
+}
 
 @media (max-width: 900px) {
   .contact-container { grid-template-columns: 1fr; gap: 20px; }
