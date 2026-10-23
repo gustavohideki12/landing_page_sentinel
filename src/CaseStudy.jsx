@@ -33,7 +33,7 @@ export function CaseScene({ onOpen }) {
   const current = stages[stage];
   const context = contextInputs[contextIndex];
   return <section className="scene case-scene grounded-case" aria-label="Caso demonstrativo do setor Contábil">
-    <div className="case-top"><div className="story-heading"><span className="eyebrow"><span>07</span>UM CASO DO SENTINEL</span><h2>Da pesquisa<br /><em>à ação no Contábil.</em></h2></div><span className="demo-badge"><span />BASEADO NOS PRINTS DO PROJETO</span></div>
+    <div className="case-top"><div className="story-heading"><span className="eyebrow"><span>06</span>UM CASO DO SENTINEL</span><h2>Da pesquisa<br /><em>à ação no Contábil.</em></h2></div><span className="demo-badge"><span />BASEADO NOS PRINTS DO PROJETO</span></div>
     <nav className="case-stages" aria-label="Etapas do caso">{stages.map((item, i) => <button key={item.title} aria-current={stage === i ? 'step' : undefined} onClick={() => setStage(i)}><span>0{i + 1}</span><item.icon size={18} />{item.title}{i < 3 && <ChevronRight className="case-chevron" size={17} />}</button>)}</nav>
     <div className="case-workspace"><div className="case-visual" key={stage}>
       {stage === 0 && <div className="case-survey-result">

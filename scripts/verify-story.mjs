@@ -22,7 +22,7 @@ try {
   assert.equal(await page.locator('.is-connected').count(), 1);
   assert.match(await page.locator('.decision-chain').innerText(), /Sugestões com o contexto/);
   await page.screenshot({ path: 'artifacts/v4-connected.png' });
-  await chapter(6);
+  await chapter(5);
   assert.deepEqual(await page.locator('.case-indicator > b').allTextContents(), ['69', '67', '56']);
   assert.match(await page.locator('.case-priority').innerText(), /Setor Contábil/);
   await page.getByRole('button', { name: 'Ver dashboard', exact: true }).click();
@@ -68,7 +68,7 @@ try {
   await page.keyboard.press('ArrowDown');
   assert.match(page.url(), /#problema$/);
   await page.keyboard.press('End');
-  assert.match(page.url(), /#valor$/);
+  assert.match(page.url(), /#contato$/);
   await page.getByRole('button', { name: 'Reiniciar pitch', exact: true }).click();
   assert.match(page.url(), /#abertura$/);
   await page.waitForTimeout(1050);
@@ -107,8 +107,9 @@ try {
     }
   }
   // Broken screenshot assets must yield an understandable fallback.
-  await page.route('**/images/inicio-v2.png', (route) => route.abort());
+  await page.route('**/images/contexto-v2.png', (route) => route.abort());
   await chapter(4);
+  await page.getByRole('navigation', { name: 'Etapas do produto' }).getByRole('button', { name: 'Contexto da empresa', exact: true }).click();
   await page.getByRole('status').filter({ hasText: /Não foi possível carregar/ }).waitFor();
   assert.deepEqual(errors, []);
   console.log(JSON.stringify({ status: 'passed', checks: ['interactive before/after', 'source screenshot evidence', 'one accounting case across four stages', 'company context and policy', 'plan review and simulated approval', 'reversible task completion', 'reapplication without fabricated improvement', 'rehearsal notes and timer', 'keyboard, scroll and deep links', 'fullscreen', 'all case states on six viewport sizes', 'image failure fallback', 'no runtime errors'] }, null, 2));

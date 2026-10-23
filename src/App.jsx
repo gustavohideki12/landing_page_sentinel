@@ -5,7 +5,7 @@ import {
   BrainCircuit, CalendarDays, Check, CheckCheck, ChevronRight, CircleHelp,
   ClipboardList, Clock3, Fingerprint, HeartPulse, LockKeyhole, MessageCircle,
   Maximize2, Minimize2, Pause, Play, RotateCcw, Settings2,
-  ShieldCheck, Sparkles, Users, Scale, FileText, Database, Home, Award, UploadCloud, X, ZoomIn, ZoomOut,
+  ShieldCheck, Sparkles, Users, Scale, FileText, Database, Award, X, ZoomIn, ZoomOut,
   Linkedin, ExternalLink, Type, Eye, Sun, Moon, MapPin, Wallet,
 } from 'lucide-react';
 
@@ -19,12 +19,12 @@ const sources = {
 const chapters = [
   { title: 'Abertura', icon: HeartPulse }, { title: 'O problema', icon: BarChart3 },
   { title: 'A lacuna', icon: CircleHelp }, { title: 'A solução', icon: ShieldCheck },
-  { title: 'Produto', icon: Play }, { title: 'IA + contexto', icon: BrainCircuit },
+  { title: 'Produto', icon: Play },
   { title: 'Na prática', icon: Users }, { title: 'O valor', icon: CheckCheck },
   { title: 'Contato', icon: Linkedin },
 ];
-const sceneSlugs = ['abertura', 'problema', 'lacuna', 'solucao', 'produto', 'inteligencia', 'na-pratica', 'valor', 'contato'];
-const sceneFromHash = () => Math.max(0, sceneSlugs.indexOf(window.location.hash.slice(1)));
+const sceneSlugs = ['abertura', 'problema', 'lacuna', 'solucao', 'produto', 'na-pratica', 'valor', 'contato'];
+const sceneFromHash = () => window.location.hash === '#inteligencia' ? 4 : Math.max(0, sceneSlugs.indexOf(window.location.hash.slice(1)));
 
 const media = {
   painel: { file: 'dashboard-v2', size: [894, 859], crop: [20, 112, 855, 473] },
@@ -32,26 +32,31 @@ const media = {
   contexto: { file: 'contexto-v2', size: [1914, 902], crop: [445, 350, 1280, 493] },
   inicio: { file: 'inicio-v2', size: [1917, 905], crop: [445, 94, 1280, 455] },
   ciclos: { file: 'ciclo-v2', size: [1092, 815], crop: [25, 40, 1027, 533] },
+  reavaliacao: { file: 'ciclo-v2', size: [1092, 815], crop: [25, 240, 1027, 333] },
   criar: { file: 'criar-ciclo', size: [532, 657], crop: [8, 13, 512, 636] },
   kanban: { file: 'kanban-v2', size: [1353, 758], crop: [40, 177, 1280, 356] },
   plano: { file: 'plano-v2', size: [575, 854], crop: [8, 0, 557, 465] },
   plano5w2h: { file: 'plano-v2', size: [575, 854], crop: [8, 500, 557, 345] },
   rag: { file: 'rag-aplicado', size: [1917, 872], crop: [477, 282, 1202, 580] },
   dossie: { file: 'dossie', size: [1113, 783], crop: [50, 118, 1018, 602] },
+  certificado: { file: 'certificado', size: [1047, 740], crop: [0, 0, 1047, 740] },
   denuncias: { file: 'denuncias', size: [902, 748], crop: [21, 9, 855, 721] },
 };
 
 const steps = [
-  { title: 'Início', group: 'Preparar', heading: 'O ponto de partida do RH.', icon: Home, image: 'inicio', tags: ['Visão do gestor', 'Jornada integrada'], value: 'Tudo conectado', notes: ['Pesquisas, indicadores e ações', 'Um só ambiente para o RH'] },
-  { title: 'Empresa', group: 'Preparar', heading: 'A realidade da empresa entra na análise.', icon: Settings2, image: 'contexto', tags: ['Perfil', 'Orçamento', 'Restrições'], value: 'Contexto real', notes: ['Porte e regime de trabalho', 'Recursos disponíveis', 'Limites para as recomendações'] },
-  { title: 'Base de conhecimento', group: 'Preparar', heading: 'A IA conhece as regras da empresa.', icon: Database, image: 'knowledge', tags: ['Documentos internos', 'RAG', 'Contexto'], value: 'Recomendações situadas', notes: ['Políticas e procedimentos', 'Padrões e limites internos', 'Trechos relevantes recuperados para a IA'] },
-  { title: 'Criar pesquisa', group: 'Escutar', heading: 'Escolher o instrumento. Convidar a equipe.', icon: ClipboardList, image: 'criar', tags: ['Colaboradores', 'Setores', 'Questionários'], value: 'Escuta estruturada', notes: ['COPSOQ II/III, JSS ou OLBI', 'Colaboradores vinculados à pesquisa', 'Respostas anônimas'] },
-  { title: 'Acompanhar ciclo', group: 'Escutar', heading: 'Acompanhar hoje. Comparar depois.', icon: RotateCcw, image: 'ciclos', tags: ['Adesão', 'Histórico', 'Reavaliação'], value: 'Evolução comparável', notes: ['Gerenciar respostas e participação', 'Reaplicar o mesmo instrumento', 'Comparar as coletas e verificar a evolução'] },
-  { title: 'Dashboard', group: 'Agir', heading: 'Enxergar onde a atenção é mais urgente.', icon: BarChart3, image: 'painel', tags: ['Dimensões', 'Setores', 'Prioridades'], value: 'Riscos visíveis', notes: ['Ritmo de trabalho e exigências', 'Índices e ranking de dimensões', 'Visão agregada para orientar o RH'] },
-  { title: 'Plano de ação', group: 'Agir', heading: 'A IA sugere. O gestor decide.', icon: BrainCircuit, image: 'plano', tags: ['IA + RAG', '5W2H', 'Revisão humana'], value: 'Ação viável', notes: ['Aprovar ou rejeitar a recomendação', 'Custos, prazos e capacidade', 'Assistente de IA para esclarecer dúvidas'] },
-  { title: 'Kanban', group: 'Agir', heading: 'Do plano à execução acompanhada.', icon: CheckCheck, image: 'kanban', tags: ['Tarefas', 'Responsáveis', 'Etapas'], value: 'Execução visível', notes: ['Desdobrar os planos em tarefas', 'Acompanhar responsáveis e status', 'Registrar o andamento das ações'] },
-  { title: 'Dossiê e certificado', group: 'Acompanhar', heading: 'Transformar o processo em evidências.', icon: FileText, image: 'dossie', tags: ['Inventário', 'NR-1', 'Certificado Sentinel'], value: 'Gestão documentada', notes: ['Inventário de riscos e medidas', 'Certificado por nível de evidência', 'Reavaliação e melhora enriquecem o registro'] },
-  { title: 'Denúncia anônima', group: 'Acompanhar', heading: 'Ouvir os sinais entre uma pesquisa e outra.', icon: MessageCircle, image: 'denuncias', tags: ['Anonimato', 'Acolhimento', 'Acompanhamento'], value: 'Escuta contínua', notes: ['Relatos de assédio e conflitos', 'Classificar e acompanhar ocorrências', 'Identificar situações que exigem atenção'] },
+  { title: 'Criar pesquisa', group: 'Pesquisar e acompanhar', heading: 'Criar o ciclo, escolher o formulário e convidar a equipe.', icon: ClipboardList, image: 'criar', tags: ['Instrumento', 'Setores', 'Colaboradores'], value: 'A pesquisa base do ciclo', notes: ['COPSOQ II/III, JSS ou OLBI', 'Definir setores e colaboradores', 'Revisar o rascunho e ativar a pesquisa'] },
+  { title: 'Ciclo de pesquisa', group: 'Pesquisar e acompanhar', heading: 'O ciclo reúne a pesquisa e suas próximas avaliações.', icon: RotateCcw, image: 'ciclos', tags: ['Pesquisa base', 'Participação', 'Histórico'], value: 'Um acompanhamento contínuo', notes: ['Uma pesquisa base inicia o ciclo', 'Respostas e adesão ficam visíveis', 'Novas aplicações mantêm o histórico conectado'] },
+  { title: 'Dashboard', group: 'Pesquisar e acompanhar', heading: 'Das respostas às dimensões que merecem atenção.', icon: BarChart3, image: 'painel', tags: ['Dimensões', 'Participação', 'Prioridades'], value: 'Enxergar os resultados', notes: ['Indicadores agregados da pesquisa', 'Ritmo de trabalho, exigências e outras dimensões', 'Prioridades para investigar as condições de trabalho'] },
+  { title: 'Base científica', group: 'Das prioridades à ação', heading: 'As recomendações precisam de fundamentação.', icon: BookOpen, image: 'science', tags: ['Fontes oficiais', 'Pesquisas', 'Instrumentos'], value: 'Fontes para a decisão', notes: ['Normas e guias oficiais', 'Pesquisas científicas e instrumentos estruturados', 'Referências para apoiar a escolha das intervenções'] },
+  { title: 'Contexto da empresa', group: 'Das prioridades à ação', heading: 'Uma ação precisa caber na realidade da empresa.', icon: Settings2, image: 'contexto', tags: ['Perfil', 'Recursos', 'Restrições'], value: 'Viabilidade', notes: ['Porte e regime de trabalho', 'Orçamento e capacidade do RH', 'Restrições e histórico de ações'] },
+  { title: 'Base de conhecimento + RAG', group: 'Das prioridades à ação', heading: 'Os documentos dão contexto à geração.', icon: Database, image: 'rag', tags: ['Documentos internos', 'Recuperação de trechos', 'Fontes'], value: 'Contexto recuperado', notes: ['Políticas e documentos da empresa', 'Busca de trechos relevantes para a recomendação', 'Indicadores e perfil chegam como dados estruturados'] },
+  { title: 'Plano de ação', group: 'Das prioridades à ação', heading: 'Da fundamentação a um plano para o gestor revisar.', icon: BrainCircuit, image: 'plan-visual', tags: ['5W2H', 'Viabilidade', 'Revisão humana'], value: 'A IA propõe. O gestor decide.', notes: ['Análise dos indicadores e curadoria das intervenções', 'Contexto e fontes orientam a elaboração', 'Responsáveis, prazos e investimento estimado'] },
+  { title: 'RAG na prática', group: 'Das prioridades à ação', heading: 'Fontes no plano. Contexto na conversa.', icon: MessageCircle, image: 'rag-evidence', tags: ['Justificativa', 'Fontes consultadas', 'Chat contextualizado'], value: 'Rastreabilidade', notes: [] },
+  { title: 'Kanban', group: 'Registrar e ouvir', heading: 'Do plano à execução acompanhada.', icon: CheckCheck, image: 'kanban', tags: ['Tarefas', 'Responsáveis', 'Etapas'], value: 'Execução visível', notes: ['Desdobrar os planos em tarefas', 'Acompanhar responsáveis e status', 'Registrar o andamento das ações'] },
+  { title: 'Reavaliação', group: 'Registrar e ouvir', heading: 'Voltar à pesquisa e comparar os indicadores.', icon: RotateCcw, image: 'reavaliacao', tags: ['Mesmo instrumento', 'Nova coleta', 'Comparação'], value: 'Acompanhar a evolução', notes: ['Criar uma nova aplicação no mesmo ciclo', 'Reaplicar após as ações e comparar as coletas', 'A comparação depende de pelo menos duas aplicações'] },
+  { title: 'Dossiê', group: 'Registrar e ouvir', heading: 'Reunir as evidências do processo.', icon: FileText, image: 'dossie', tags: ['Inventário', 'Medidas', 'Histórico'], value: 'Gestão documentada', notes: ['Inventário de riscos e medidas', 'Registros da pesquisa e das ações', 'Documentação para apoiar o PGR'] },
+  { title: 'Certificado Sentinel', group: 'Registrar e ouvir', heading: 'Registrar a avaliação realizada pela empresa.', icon: Award, image: 'certificado', tags: ['Empresa e ciclo', 'Participação', 'Validação por QR code'], value: 'Comprovação da aplicação', notes: ['Identificação da empresa e do ciclo', 'Adesão dos colaboradores à pesquisa', 'Data de emissão e código de validação'] },
+  { title: 'Denúncia anônima', group: 'Registrar e ouvir', heading: 'Ouvir os sinais entre uma pesquisa e outra.', icon: MessageCircle, image: 'denuncias', tags: ['Anonimato', 'Acolhimento', 'Acompanhamento'], value: 'Escuta contínua', notes: ['Relatos de assédio e conflitos', 'Classificar e acompanhar ocorrências', 'Identificar situações que exigem atenção'] },
 ];
 
 function Brand({ onClick }) {
@@ -151,19 +156,6 @@ function ProductScreen({ image, title, onOpen, className = '' }) {
   </div>;
 }
 
-function KnowledgeFlow() {
-  return <div className="knowledge-flow" aria-label="Fluxo conceitual do RAG">
-    <span className="knowledge-eyebrow"><UploadCloud size={15} />DOCUMENTOS DA EMPRESA</span>
-    <div className="knowledge-documents">{['Políticas internas', 'Procedimentos', 'Padrões e limites'].map((label) => <div key={label}><FileText size={24} /><span>{label}</span><Check size={13} /></div>)}</div>
-    <div className="knowledge-path" aria-hidden="true"><span /><ArrowRight size={18} /></div>
-    <div className="knowledge-core"><Database size={43} strokeWidth={1.3} /><b>Base de conhecimento</b><span>Recuperação de trechos relevantes</span></div>
-    <div className="knowledge-path" aria-hidden="true"><span /><ArrowRight size={18} /></div>
-    <div className="knowledge-output"><BrainCircuit size={38} strokeWidth={1.3} /><b>IA com contexto</b><span>Recomendações e assistente</span></div>
-    <div className="knowledge-foundation"><BookOpen size={17} /><span>Pesquisas científicas + documentos oficiais</span><ShieldCheck size={17} /></div>
-    <span className="knowledge-caption">Esquema do RAG do Sentinel</span>
-  </div>;
-}
-
 function SolutionScene() {
   const [mode, setMode] = useState(0);
   const modes = [
@@ -188,14 +180,14 @@ function ProblemScene({ onSources }) {
 }
 
 function ProductScene({ stepIndex, onStep, onOpen }) {
-  const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [playing, setPlaying] = useState(false);
   const [detailStep, setDetailStep] = useState(null);
   const step = steps[stepIndex];
+  const visual = ['science', 'plan-visual', 'rag-evidence'].includes(step.image);
+  const selectStep = (index) => { onStep(index); setPlaying(false); };
+  useEffect(() => { setDetailStep(null); }, [stepIndex]);
   useEffect(() => {
-    setDetailStep(null);
-  }, [stepIndex]);
-  useEffect(() => {
-    if (!playing || !['painel', 'plano'].includes(step.image)) return;
+    if (!playing || step.image !== 'painel') return;
     const timer = setTimeout(() => setDetailStep(stepIndex), 3800);
     return () => clearTimeout(timer);
   }, [stepIndex, playing, step.image]);
@@ -207,12 +199,22 @@ function ProductScene({ stepIndex, onStep, onOpen }) {
     }, 7500);
     return () => clearTimeout(timer);
   }, [playing, stepIndex, onStep]);
-  const image = detailStep === stepIndex ? (step.image === 'painel' ? 'graficos' : 'plano5w2h') : step.image;
-  return <section className="scene product-scene"><SceneTitle index="05" eyebrow="DEMONSTRAÇÃO" title="Um sistema. O ciclo completo."><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar percurso' : 'Reproduzir percurso'} title={playing ? 'Pausar percurso' : 'Reproduzir percurso'} onClick={() => { if (stepIndex === steps.length - 1 && !playing) onStep(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></SceneTitle>
-    <div className="demo-workspace"><nav className="process-rail" aria-label="Etapas do produto">{steps.map((item, index) => <React.Fragment key={item.title}>{(index === 0 || steps[index - 1].group !== item.group) && <span className="process-group">{item.group}</span>}<button className={stepIndex === index ? 'active' : ''} onClick={() => { onStep(index); setPlaying(false); }} aria-current={stepIndex === index ? 'step' : undefined}><item.icon size={17} /><span>{item.title}</span>{index < stepIndex && <Check className="process-done" size={12} />}</button></React.Fragment>)}</nav>
-    <div className="demo-stage"><div className="demo-heading"><h3>{step.heading}</h3><span className="step-count">{String(stepIndex + 1).padStart(2, '0')}<i> / {steps.length}</i></span></div>
-    <div className={`demo-content ${step.image === 'knowledge' ? 'has-knowledge' : ''}`}><div className="demo-media">{step.image === 'knowledge' ? <KnowledgeFlow /> : <ProductScreen key={image} image={image} title={step.title} onOpen={onOpen} />}</div><aside className="demo-notes" key={step.title}><step.icon size={28} strokeWidth={1.4} /><h4>{step.value}</h4><ul>{step.notes.map((note) => <li key={note}>{note}</li>)}</ul>{step.image === 'dossie' && <div className="certificate-evolution"><Award size={21} /><b>Certificado Sentinel</b><span>Registro → reavaliação → evidências de evolução</span></div>}{step.image === 'ciclos' && <div className="cycle-loop"><span>Pesquisa</span><ArrowRight size={12} /><span>Ação</span><ArrowRight size={12} /><span>Nova coleta</span></div>}</aside></div>
-    <div className="demo-bottom"><TagRow items={step.tags} /><div className="step-controls"><button className="icon-button" disabled={stepIndex === 0} onClick={() => { onStep(stepIndex - 1); setPlaying(false); }} aria-label="Etapa anterior" title="Etapa anterior"><ArrowLeft size={17} /></button><button className="icon-button" disabled={stepIndex === steps.length - 1} onClick={() => { onStep(stepIndex + 1); setPlaying(false); }} aria-label="Próxima etapa" title="Próxima etapa"><ArrowRight size={17} /></button></div></div>{playing && <div className="playback-track"><span key={stepIndex} /></div>}</div></div></section>;
+  const image = detailStep === stepIndex && step.image === 'painel' ? 'graficos' : step.image;
+  return <section className={`scene product-scene ${visual ? 'has-visual' : ''} ${step.image === 'rag-evidence' ? 'has-rag-evidence' : ''}`}>
+    <SceneTitle index="05" eyebrow="O PRODUTO EM FUNCIONAMENTO" title="Da pesquisa à ação, no mesmo ciclo."><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar percurso' : 'Reproduzir percurso'} title={playing ? 'Pausar percurso' : 'Reproduzir percurso'} onClick={() => { if (stepIndex === steps.length - 1 && !playing) onStep(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></SceneTitle>
+    <div className="demo-workspace"><nav className="process-rail" aria-label="Etapas do produto">{steps.map((item, index) => <React.Fragment key={item.title}>{(index === 0 || steps[index - 1].group !== item.group) && <span className="process-group">{item.group}</span>}<button className={stepIndex === index ? 'active' : ''} onClick={() => selectStep(index)} aria-current={stepIndex === index ? 'step' : undefined}><item.icon size={17} /><span>{item.title}</span>{index < stepIndex && <Check className="process-done" size={12} />}</button></React.Fragment>)}</nav>
+      <div className="demo-stage"><div className="demo-heading"><h3>{step.heading}</h3><span className="step-count">{String(stepIndex + 1).padStart(2, '0')}<i> / {steps.length}</i></span></div>
+        <div className="demo-content"><div className="demo-media">{step.image === 'science' ? <ScientificFoundation /> : step.image === 'plan-visual' ? <ActionPlanVisual onOpen={onOpen} /> : step.image === 'rag-evidence' ? <RagEvidence onOpen={onOpen} onContinue={() => selectStep(8)} /> : <ProductScreen key={image} image={image} title={step.title} onOpen={onOpen} />}</div>
+          <aside className="demo-notes" key={step.title}><step.icon size={28} strokeWidth={1.4} /><h4>{step.value}</h4><ul>{step.notes.map((note) => <li key={note}>{note}</li>)}</ul>
+            {stepIndex === 2 && <button className="product-continue" onClick={() => selectStep(3)}>Como escolher as ações?<ArrowRight size={17} /></button>}
+            {step.image === 'plan-visual' && <button className="product-continue" onClick={() => selectStep(7)}>Ver a justificativa e o chat<ArrowRight size={17} /></button>}
+          </aside>
+        </div>
+        <div className="demo-bottom"><TagRow items={step.tags} /><div className="step-controls"><button className="icon-button" disabled={stepIndex === 0} onClick={() => selectStep(stepIndex - 1)} aria-label="Etapa anterior" title="Etapa anterior"><ArrowLeft size={17} /></button><button className="icon-button" disabled={stepIndex === steps.length - 1} onClick={() => selectStep(stepIndex + 1)} aria-label="Próxima etapa" title={steps[stepIndex + 1]?.title || 'Fim do percurso'}><ArrowRight size={17} /></button></div></div>
+        {playing && <div className="playback-track"><span key={stepIndex} /></div>}
+      </div>
+    </div>
+  </section>;
 }
 
 function ScientificFoundation() {
@@ -225,6 +227,25 @@ function ScientificFoundation() {
     <div className="science-heading"><span className="eyebrow">FONTES PARA FUNDAMENTAR AS SUGESTÕES</span></div>
     <div className="science-cards">{foundations.map((item) => <article className="science-card" key={item.title}><span className="science-icon"><item.icon size={26} strokeWidth={1.5} /></span><h4>{item.title}</h4><b>{item.subtitle}</b><p>{item.description}</p></article>)}</div>
     <div className="science-takeaway"><ShieldCheck size={21} /><p>A base fundamenta a sugestão. O contexto da empresa orienta a adaptação.</p></div>
+  </div>;
+}
+
+function EvidenceExcerpt({ file, size, crop, label }) {
+  const [naturalWidth, naturalHeight] = size;
+  const [x, y, width, height] = crop;
+  return <div className="evidence-excerpt" style={{ aspectRatio: `${width} / ${height}`, maxWidth: `min(${width * 1.1}px, calc(var(--evidence-height) * ${width / height}))` }}><img src={`/images/${file}.png`} alt={label} style={{ width: `${naturalWidth / width * 100}%`, transform: `translate(${-x / naturalWidth * 100}%, ${-y / naturalHeight * 100}%)` }} /></div>;
+}
+
+function RagEvidence({ onOpen, onContinue }) {
+  const [justificationTab, setJustificationTab] = useState(0);
+  const [chatTab, setChatTab] = useState(0);
+  return <div className="rag-evidence" role="region" aria-label="Justificativa e chat com RAG">
+    <div className="rag-evidence-panels">
+      <article className="rag-evidence-card"><header><BookOpen size={21} /><div><h4>Por que a IA escolheu essa ação?</h4><p>A justificativa conecta os dados às fontes consultadas.</p></div></header><div className="evidence-tabs" role="tablist" aria-label="Trechos da justificativa">{['Justificativa', 'Documentos consultados'].map((label, index) => <button key={label} role="tab" aria-selected={justificationTab === index} onClick={() => setJustificationTab(index)}>{label}</button>)}</div><button className="evidence-preview" onClick={() => onOpen({ file: 'rag-justificativa', title: 'Justificativa e fontes do plano — captura do sistema' })} aria-label="Ampliar justificativa e fontes do plano"><span className="evidence-image-slot"><EvidenceExcerpt file="rag-justificativa" size={[532, 717]} crop={justificationTab === 0 ? [20, 179, 480, 136] : [20, 536, 480, 158]} label={justificationTab === 0 ? 'Trecho real da justificativa com dados, política interna e referências' : 'Documentos da empresa e referências consultadas na elaboração do plano'} /></span><span className="evidence-open-label"><Maximize2 size={15} />Abrir justificativa completa</span></button></article>
+      <article className="rag-evidence-card"><header><MessageCircle size={21} /><div><h4>O contexto continua no chat.</h4><p>A conversa considera o histórico e as políticas da empresa.</p></div></header><div className="evidence-tabs" role="tablist" aria-label="Trechos do chat">{['Histórico da empresa', 'Política e referência'].map((label, index) => <button key={label} role="tab" aria-selected={chatTab === index} onClick={() => setChatTab(index)}>{label}</button>)}</div><button className="evidence-preview" onClick={() => onOpen({ file: 'rag-chat-plano', title: 'Chat sobre o plano de ação — captura do sistema' })} aria-label="Ampliar chat sobre o plano de ação"><span className="evidence-image-slot"><EvidenceExcerpt file="rag-chat-plano" size={[476, 862]} crop={chatTab === 0 ? [22, 96, 432, 185] : [22, 392, 390, 147]} label={chatTab === 0 ? 'Pergunta sobre a palestra de 2025 e resposta que considera o histórico' : 'Trecho do chat com política interna, pausas e referência número 4'} /></span><span className="evidence-open-label"><Maximize2 size={15} />Abrir conversa completa</span></button></article>
+    </div>
+    <div className="rag-model-choice"><Wallet size={22} /><div><b>Modelos de IA por finalidade</b><p>A empresa pode escolher modelos diferentes para gerar planos e conversar no chat, equilibrando capacidade e custo de tokens.</p></div><button className="text-button" onClick={onContinue}>Acompanhar a execução<ArrowRight size={16} /></button></div>
+    <p className="rag-evidence-caption">Capturas do ambiente demonstrativo. Recortes para leitura; abra cada imagem para consultar o conteúdo completo.</p>
   </div>;
 }
 
@@ -244,30 +265,6 @@ function ActionPlanVisual({ onOpen }) {
   </div>;
 }
 
-const ragStages = [
-  { title: 'Base científica', caption: 'Pesquisas + guias oficiais', icon: BookOpen, image: 'science', points: ['Documentos oficiais', 'Pesquisas', 'Instrumentos'] },
-  { title: 'Contexto + RAG', caption: 'Documentos da empresa', icon: Database, image: 'rag', points: ['Documentos internos', 'Políticas', 'Contexto da empresa'] },
-  { title: 'Plano 5W2H', caption: 'Sugestão para revisão', icon: Sparkles, image: 'plano', points: ['O quê', 'Como', 'Quem e quando'] },
-];
-
-function RagScene({ onOpen }) {
-  const [phase, setPhase] = useState(0);
-  const [playing, setPlaying] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  useEffect(() => {
-    if (!playing) return;
-    const timer = setTimeout(() => {
-      if (phase === 2) setPlaying(false);
-      else setPhase(phase + 1);
-    }, 3600);
-    return () => clearTimeout(timer);
-  }, [phase, playing]);
-  const current = ragStages[phase];
-  return <section className="scene rag-scene"><SceneTitle index="06" eyebrow="DIFERENCIAIS E FUNCIONAMENTO" title="A IA consulta antes de sugerir."><div className="rag-heading-tools"><span className="status-label"><BrainCircuit size={15} />RAG integrado</span><button className="icon-button quiet-playback" aria-label={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} title={playing ? 'Pausar fluxo RAG' : 'Reproduzir fluxo RAG'} onClick={() => { if (!playing) setPhase(0); setPlaying(!playing); }}>{playing ? <Pause size={15} /> : <Play size={15} />}</button></div></SceneTitle><p className="rag-plain-language">{phase === 2 ? 'O plano organiza a recomendação em responsáveis, prazos e passos de execução.' : 'RAG, em linguagem simples: buscar informações relevantes nos documentos e usá-las como contexto para a resposta.'}</p>
-    <div className={`rag-pipeline ${playing ? 'is-playing' : ''}`} role="tablist" aria-label="Etapas do RAG">{ragStages.map((item, index) => <React.Fragment key={item.title}><button role="tab" aria-selected={phase === index} onClick={() => { setPhase(index); setPlaying(false); }} className={phase === index ? 'active' : ''}><span className="pipeline-icon"><item.icon size={22} /></span><span><b>{item.title}</b><small>{item.caption}</small></span><span className="pipeline-number">0{index + 1}</span></button>{index < 2 && <div className={`pipeline-line ${phase > index ? 'passed' : ''}`}><span /><ArrowRight size={14} /></div>}</React.Fragment>)}</div>
-    <div className="rag-workspace"><div className="rag-detail">{current.image === 'science' ? <ScientificFoundation /> : current.image === 'plano' ? <ActionPlanVisual onOpen={onOpen} /> : <ProductScreen key={current.image} image={current.image} title={current.title} onOpen={onOpen} />}<div className="screen-caption"><TagRow items={current.points} /></div></div><aside className="rag-aside"><div className="rag-core"><BrainCircuit size={35} strokeWidth={1.5} /><span>Ciência, contexto e ação.</span><small>Uma base para cada recomendação</small></div><div className="differential-item"><ClipboardList size={19} /><div><b>Instrumentos estruturados</b><span>COPSOQ II/III · JSS · OLBI</span></div></div><div className="differential-item"><Settings2 size={19} /><div><b>Filtros de viabilidade</b><span>Orçamento, RH e histórico</span></div></div><div className="differential-item"><BookOpen size={19} /><div><b>Referências rastreáveis</b><span>Pesquisas e documentos oficiais</span></div></div><div className="differential-item"><LockKeyhole size={19} /><div><b>Controle de acesso</b><span>PostgreSQL / Supabase + RLS</span></div></div><div className="human-decision"><ShieldCheck size={20} /><b>Revisão humana</b></div></aside></div><div className="technical-foundation"><span>Next.js + React + TypeScript</span><span>Respostas anonimizadas</span><span>IA + recuperação de contexto</span></div>
-  </section>;
-}
-
 const valueItems = [
   { title: 'Clareza', before: 'Sinais dispersos', after: 'Prioridades visíveis', image: 'painel', icon: BarChart3 },
   { title: 'Direção', before: 'Ações desconectadas', after: 'Planos com contexto', image: 'plano', icon: BrainCircuit },
@@ -275,14 +272,14 @@ const valueItems = [
 ];
 
 function ValueScene({ onOpen }) {
-  return <section className="scene value-scene"><SceneTitle index="08" eyebrow="VALOR GERADO" title="Perceber os sinais. Agir com direção." /><div className="value-columns">{valueItems.map((item, index) => <article key={item.title} className="value-column" style={{ '--entry-delay': `${index * 180}ms` }}><div className="value-column-heading"><item.icon size={25} strokeWidth={1.5} /><h3>{item.title}</h3><span>0{index + 1}</span></div><ProductScreen image={item.image} title={item.title} onOpen={onOpen} /><div className="value-change"><span>{item.before}</span><ArrowRight size={17} /><b>{item.after}</b></div></article>)}</div><div className="value-stakeholders"><div><Fingerprint size={22} /><span><b>Colaborador</b><small>Escuta protegida</small></span></div><div><Users size={22} /><span><b>RH</b><small>Decisões orientadas</small></span></div><div><ShieldCheck size={22} /><span><b>Organização</b><small>Histórico e acompanhamento</small></span></div></div><div className="value-close"><span>Sentinel<span>.</span></span><b>Da escuta à ação.</b><small>Valor operacional demonstrado. Impacto sobre afastamentos e retorno financeiro ainda não mensurados.</small></div></section>;
+  return <section className="scene value-scene"><SceneTitle index="07" eyebrow="VALOR GERADO" title="Perceber os sinais. Agir com direção." /><div className="value-columns">{valueItems.map((item, index) => <article key={item.title} className="value-column" style={{ '--entry-delay': `${index * 180}ms` }}><div className="value-column-heading"><item.icon size={25} strokeWidth={1.5} /><h3>{item.title}</h3><span>0{index + 1}</span></div><ProductScreen image={item.image} title={item.title} onOpen={onOpen} /><div className="value-change"><span>{item.before}</span><ArrowRight size={17} /><b>{item.after}</b></div></article>)}</div><div className="value-stakeholders"><div><Fingerprint size={22} /><span><b>Colaborador</b><small>Escuta protegida</small></span></div><div><Users size={22} /><span><b>RH</b><small>Decisões orientadas</small></span></div><div><ShieldCheck size={22} /><span><b>Organização</b><small>Histórico e acompanhamento</small></span></div></div><div className="value-close"><span>Sentinel<span>.</span></span><b>Da escuta à ação.</b><small>Valor operacional demonstrado. Impacto sobre afastamentos e retorno financeiro ainda não mensurados.</small></div></section>;
 }
 
 function ContactScene() {
   const linkedinUrl = 'https://www.linkedin.com/company/sentinel-gestao-de-seguranca';
   return (
     <section className="scene contact-scene" aria-label="Contato e Conexão">
-      <SceneTitle index="09" eyebrow="CONECTE-SE AO SENTINEL" title="Vamos transformar a segurança psicológica juntos." />
+      <SceneTitle index="08" eyebrow="CONECTE-SE AO SENTINEL" title="Vamos transformar a segurança psicológica juntos." />
       <div className="contact-container">
         <a 
           href={linkedinUrl} 
@@ -344,7 +341,8 @@ function ContactScene() {
             </a>
           </div>
           <div className="contact-qr-note">
-            <small>Disponível para computadores e dispositivos móveis. Clique no card ou no botão acima para abrir a página institucional.</small>
+            <img className="contact-qr-image" src="/images/qrcode-sentinel.png" alt="QR code de contato da Sentinel" width="176" height="176" />
+            <small>Escaneie o QR code com a câmera do celular ou clique no card ou no botão acima para abrir a página institucional.</small>
           </div>
         </div>
       </div>
@@ -391,7 +389,7 @@ function AccessibilityDialog({ fontSize, onFontSizeChange, onClose }) {
 
 export default function App() {
   const [scene, setScene] = useState(sceneFromHash);
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(() => window.location.hash === '#inteligencia' ? 3 : 0);
   const [selected, setSelected] = useState(null);
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const [fullscreen, setFullscreen] = useState(false);
@@ -407,7 +405,7 @@ export default function App() {
     wheelState.current = { amount: 0, last: 0, lockedUntil: performance.now() + 900 };
   }, [scene]);
   useEffect(() => {
-    const handler = () => navigate(sceneFromHash());
+    const handler = () => { if (window.location.hash === '#inteligencia') { setStep(3); window.history.replaceState(null, '', '#produto'); } navigate(sceneFromHash()); };
     window.addEventListener('hashchange', handler);
     return () => window.removeEventListener('hashchange', handler);
   }, []);
@@ -465,7 +463,7 @@ export default function App() {
   };
   const lastScene = scene === chapters.length - 1;
   return <div className={`pitch-app ${scene === 0 ? 'opening-active' : ''} a11y-font-${fontSize}`} onKeyDown={onTabKeys}><a className="skip-link" href="#conteudo" onClick={(event) => { event.preventDefault(); scrollArea.current?.focus(); }}>Pular para a apresentação</a><header className="app-header"><Brand onClick={() => navigate(0)} /><nav className="chapter-nav" aria-label="Cenas do pitch">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : ''} onClick={() => navigate(index)} aria-current={scene === index ? 'page' : undefined} title={item.title}><span className="chapter-number">0{index + 1}</span><item.icon size={16} /><span className="chapter-name">{item.title}</span></button>)}</nav><div className="header-tools"><button className="icon-button a11y-button" aria-label="Opções de acessibilidade" onClick={() => setA11yOpen(true)} title="Acessibilidade (tamanho da fonte)"><Type size={17} /></button><button className="icon-button index-button" aria-label="Índice da apresentação" onClick={() => setIndexOpen(true)} title="Índice da apresentação"><ClipboardList size={17} /></button><button className="icon-button fullscreen-button" onClick={toggleFullscreen} aria-label={fullscreen ? 'Sair da tela cheia' : 'Tela cheia'} title={fullscreen ? 'Sair da tela cheia · F' : 'Tela cheia · F'}>{fullscreen ? <Minimize2 size={17} /> : <Maximize2 size={17} />}</button></div></header>
-    <main id="conteudo" tabIndex={-1} ref={scrollArea} className={`scene-area scene-area-${scene}`}><div key={scene} className="scene-transition">{scene === 0 && <ImpactScene />}{scene === 1 && <ProblemScene onSources={() => setSourcesOpen(true)} />}{scene === 2 && <GapScene />}{scene === 3 && <SolutionScene onOpen={setSelected} />}{scene === 4 && <ProductScene stepIndex={step} onStep={setStep} onOpen={setSelected} />}{scene === 5 && <RagScene onOpen={setSelected} />}{scene === 6 && <CaseScene onOpen={setSelected} />}{scene === 7 && <ValueScene onOpen={setSelected} />}{scene === 8 && <ContactScene />}</div></main>
+    <main id="conteudo" tabIndex={-1} ref={scrollArea} className={`scene-area scene-area-${scene}`}><div key={scene} className="scene-transition">{scene === 0 && <ImpactScene />}{scene === 1 && <ProblemScene onSources={() => setSourcesOpen(true)} />}{scene === 2 && <GapScene />}{scene === 3 && <SolutionScene onOpen={setSelected} />}{scene === 4 && <ProductScene stepIndex={step} onStep={setStep} onOpen={setSelected} />}{scene === 5 && <CaseScene onOpen={setSelected} />}{scene === 6 && <ValueScene onOpen={setSelected} />}{scene === 7 && <ContactScene />}</div></main>
     <div className="sr-only" aria-live="polite" aria-atomic="true">Cena {scene + 1} de {chapters.length}: {chapters[scene].title}</div>
     <footer className="presentation-footer"><div className="footer-tools"><button className="footer-info" onClick={() => setSourcesOpen(true)}><CircleHelp size={15} /><span>Fontes e projeto</span></button><button className="footer-info" onClick={() => setA11yOpen(true)} title="Acessibilidade"><Type size={15} /><span>Acessibilidade</span></button><button className={`footer-info rehearsal-button ${presenterOpen ? 'active' : ''}`} aria-pressed={presenterOpen} onClick={() => setPresenterOpen(!presenterOpen)} title="Roteiro de ensaio · N"><BookOpen size={15} /><span>Ensaiar</span></button></div><div className="scene-pagination" aria-label="Progresso da apresentação">{chapters.map((item, index) => <button key={item.title} className={scene === index ? 'active' : index < scene ? 'visited' : ''} onClick={() => navigate(index)} aria-label={`Cena ${index + 1}: ${item.title}`} title={item.title}><span /></button>)}</div><div className="presentation-controls"><span className="scene-counter">0{scene + 1}<i> / 0{chapters.length}</i></span><button className="icon-button" disabled={scene === 0} onClick={() => navigate(scene - 1)} aria-label="Cena anterior" title="Cena anterior"><ArrowLeft size={17} /></button><button className="button button-blue next-scene" aria-label={lastScene ? 'Reiniciar pitch' : 'Próximo'} title={lastScene ? 'Reiniciar pitch' : 'Próximo'} onClick={() => { if (lastScene) { setStep(0); navigate(0); } else navigate(scene + 1); }}><span>{lastScene ? 'Reiniciar' : 'Próximo'}</span>{lastScene ? <RotateCcw size={16} /> : <ArrowRight size={16} />}</button></div></footer>
     {presenterOpen && <PresenterPanel scene={scene} onClose={() => setPresenterOpen(false)} />}
