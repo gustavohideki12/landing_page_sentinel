@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   ArrowRight, BarChart3, BookOpen, BrainCircuit, Check, CheckCheck, ClipboardCheck, ClipboardList, Database,
-  FileText, Fingerprint, History, Maximize2, MessageCircle, RotateCcw, Scale, Settings2,
+  FileText, Fingerprint, History, Maximize2, MessageCircle, RotateCcw, Settings2,
   ShieldCheck, Sparkles, TrendingUp, Award, Users,
 } from 'lucide-react';
 import { ProductScreen, SceneTitle, TagRow, media } from './shared';
@@ -227,18 +227,19 @@ export function LearningScene({ onOpen }) {
           <EvidenceButton image="historico" title="Histórico de ações — captura do sistema" onOpen={onOpen}>Ver histórico no sistema</EvidenceButton>
         </div>}
         {stage === 3 && <div className="loop-measure">
-          <div className="visual-label"><TrendingUp size={16} />QUANDO A PRÓXIMA PESQUISA FECHA<span>Automático</span></div>
-          <div className="measure-flow">
-            <div><ClipboardList size={22} /><b>Pesquisa base</b><span>Ritmo de trabalho no Contábil</span></div><ArrowRight size={18} />
-            <div><RotateCcw size={22} /><b>Reavaliação</b><span>Mesmo instrumento e setor</span></div><ArrowRight size={18} />
-            <div><Scale size={22} /><b>Variação da dimensão</b><span>Por plano implantado</span></div>
+          <div className="visual-label"><TrendingUp size={16} />PESQUISA BASE × REAVALIAÇÃO<span>Comparação do sistema</span></div>
+          <div className="reassessment-intro">
+            <h3>Reaplicar para saber o que mudou.</h3>
+            <p>Ao encerrar uma nova aplicação, o Sentinel compara as pesquisas do ciclo para acompanhar a evolução do índice de saúde psicossocial e das dimensões em atenção.</p>
           </div>
-          <div className="measure-rules">
-            <span><Check size={14} />O que funcionou ganha prioridade</span>
-            <span><Check size={14} />O que falhou sai das próximas sugestões</span>
-            <span><Fingerprint size={14} />Setor com menos de 5 respostas: sem medição</span>
-          </div>
-          <p className="loop-note">Neste exemplo o plano ainda está pendente de revisão: não há reavaliação nem resultado de melhora para mostrar.</p>
+          <figure className="reassessment-evidence">
+            <button className="reassessment-capture" onClick={() => onOpen({ file: 'comparacao-reavaliacao', title: 'Comparação entre pesquisas — pesquisa base e 1ª reavaliação' })} aria-label="Ampliar comparação entre pesquisas">
+              <img src="/images/comparacao-reavaliacao.png" alt="Comparação entre pesquisas: índice de saúde de 60 para 78, ganho de 18 pontos; dimensões em atenção de 21 para 11, redução de 10. As duas pesquisas têm adesão de 86%, com 42 respostas de 49 convidados." width="1542" height="485" />
+              <span><Maximize2 size={14} />Ampliar captura do sistema</span>
+            </button>
+            <figcaption>Pesquisa base: 26/09/2026 <ArrowRight size={14} aria-hidden="true" /> 1ª reavaliação: 20/10/2026</figcaption>
+          </figure>
+          <p className="loop-note">Neste exemplo, a reavaliação mostra melhora dos indicadores: índice de saúde maior e menos dimensões em atenção. A comparação ajuda o RH a acompanhar a evolução entre as coletas.</p>
         </div>}
       </div>
       <aside className="flow-aside loop-aside" key={`aside-${stage}`}>
@@ -246,8 +247,15 @@ export function LearningScene({ onOpen }) {
           { icon: ShieldCheck, heading: 'A IA sugere. O RH decide.', text: 'Cada plano pode ser aprovado, rejeitado ou discutido no chat antes de virar trabalho.' },
           { icon: CheckCheck, heading: 'O roteiro vira tarefas.', text: 'Responsáveis, prazos e status em um quadro permanente da empresa, que acumula as ações de todos os ciclos.' },
           { icon: ClipboardCheck, heading: 'O resultado fica registrado.', text: 'Ao concluir, o RH informa se a ação funcionou. Isso entra no histórico que a IA consulta.' },
-          { icon: TrendingUp, heading: 'Cada ciclo ensina o próximo.', text: 'A reavaliação mede o efeito dos planos implantados e orienta se uma ação deve ser repetida ou evitada.' },
+          { icon: TrendingUp, heading: 'A evolução fica visível.', text: 'A mesma pesquisa, reaplicada ao longo do tempo, mostra se os indicadores melhoraram, pioraram ou ficaram estáveis.' },
         ].map((item, index) => index === stage && <React.Fragment key={item.heading}><item.icon size={28} strokeWidth={1.4} /><h3>{item.heading}</h3><p>{item.text}</p></React.Fragment>)}
+        {stage === 3 && <>
+          <dl className="reassessment-gains">
+            <div><dt>Índice de saúde</dt><dd><span>60 <ArrowRight size={18} aria-hidden="true" /> 78</span><strong>+18 pontos</strong></dd></div>
+            <div><dt>Dimensões em atenção</dt><dd><span>21 <ArrowRight size={18} aria-hidden="true" /> 11</span><strong>10 a menos</strong></dd></div>
+          </dl>
+          <p className="reassessment-privacy"><Fingerprint size={16} />Setores com menos de 5 respostas continuam protegidos.</p>
+        </>}
         <div className="loop-cycle"><span>Plano</span><ArrowRight size={12} /><span>Kanban</span><ArrowRight size={12} /><span>Histórico</span><ArrowRight size={12} /><span>Próximo plano</span></div>
       </aside>
     </div>

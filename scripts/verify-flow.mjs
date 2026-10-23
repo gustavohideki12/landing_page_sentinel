@@ -103,7 +103,12 @@ try {
   assert.match(await page.locator('.outcome-result').innerText(), /origem: Kanban/);
   assert.match(await page.locator('.outcome-result').innerText(), /Sai das próximas sugestões/);
   await tab('Etapas após o plano', 'Medir e aprender').click();
-  assert.match(await page.locator('.loop-note').innerText(), /não há reavaliação/);
+  assert.match(await page.locator('.loop-note').innerText(), /reavaliação mostra melhora dos indicadores/);
+  assert.match(await page.locator('.reassessment-gains').innerText(), /\+18 pontos/);
+  assert.match(await page.locator('.reassessment-gains').innerText(), /10 a menos/);
+  await page.locator('.reassessment-capture img').evaluate((img) => img.decode());
+  assert.equal(await page.locator('.reassessment-capture img').evaluate((img) => img.naturalWidth > 0), true);
+  await openAndClose(page.getByRole('button', { name: 'Ampliar comparação entre pesquisas', exact: true }), 'comparacao-reavaliacao');
   await page.screenshot({ path: 'artifacts/flow-aprendizado.png' });
 
   // 09–10: valor resumido e contato.

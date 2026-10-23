@@ -29,7 +29,7 @@ Para um pitch de 5 minutos, percorra apenas Empresa → Dashboard → Plano → 
 
 ### Evidências e exemplos
 
-As capturas vêm do ambiente demonstrativo (Ápice Contabilidade, empresa fictícia). O plano "Pausas fixas no Contábil", suas fontes F1 a F6, o histórico de ações e a conversa no chat são dados reais do sistema; o plano está pendente de revisão. O dossiê foi gerado pelo sistema para o Ciclo 2026. Na cena 8, aprovação, Kanban e avaliação são simulações locais, sem chamada à IA ou ao backend, e não há reavaliação nem redução de risco demonstrada. Escores não são porcentagem de colaboradores nem diagnóstico individual.
+As capturas vêm do ambiente demonstrativo (Ápice Contabilidade, empresa fictícia). O plano "Pausas fixas no Contábil", suas fontes F1 a F6, o histórico de ações e a conversa no chat são dados reais do sistema; o plano está pendente de revisão. O dossiê foi gerado pelo sistema para o Ciclo 2026. Na cena 8, aprovação, Kanban e avaliação são simulações locais, sem chamada à IA ou ao backend. A etapa Medir e aprender apresenta a captura de comparação entre a pesquisa base (26/09/2026) e a primeira reavaliação (20/10/2026): índice de saúde 60 → 78 (+18 pontos), dimensões em atenção 21 → 11 e adesão de 86% nas duas coletas. Essa comparação demonstra a evolução dos indicadores do exemplo, sem atribuí-la a um plano específico. Escores não são porcentagem de colaboradores nem diagnóstico individual.
 
 As fontes oficiais da série nacional, NR-1 e NR-28 foram revistas em 19/10/2026. A referência de Lewis et al. (2020) fundamenta o conceito de RAG e não valida a implementação do Sentinel. Os links estão em **Fontes e projeto**. Não há alegação de redução de afastamentos, retorno financeiro ou certificação governamental comprovados.
 
