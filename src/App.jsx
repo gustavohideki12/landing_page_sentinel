@@ -7,7 +7,7 @@ import {
   BrainCircuit, CalendarDays, CheckCheck, CircleHelp,
   ClipboardList, Clock3, Database, FileText, Fingerprint, HeartPulse, MessageCircle,
   Maximize2, Minimize2, RotateCcw, ShieldCheck, Sparkles, Users, Scale, X, ZoomIn, ZoomOut,
-  Linkedin, ExternalLink, Type,
+  Linkedin, Type,
 } from 'lucide-react';
 
 const sources = {
@@ -176,30 +176,13 @@ function ContactScene() {
           </div>
         </a>
 
-        <div className="contact-side-info">
-          <div className="contact-quick-stat">
-            <ShieldCheck size={28} strokeWidth={1.5} />
-            <div>
-              <b>Conecte-se com nossa equipe</b>
-              <p>Acompanhe novidades, atualizações regulatórias sobre a NR-1 e o desenvolvimento da plataforma.</p>
-            </div>
-          </div>
-          <div className="contact-methods">
-            <a 
-              href={linkedinUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="contact-pill-button primary"
-            >
-              <Linkedin size={20} />
-              <span>Conectar no LinkedIn</span>
-              <ExternalLink size={16} />
-            </a>
-          </div>
-          <div className="contact-qr-note">
-            <small>Disponível para computadores e dispositivos móveis. Clique no card ou no botão acima para abrir a página institucional.</small>
-          </div>
-        </div>
+        <aside className="contact-side-info contact-mobile-card" aria-labelledby="contact-mobile-title">
+          <div className="contact-mobile-heading"><span className="eyebrow">CONTINUE PELO CELULAR</span><h3 id="contact-mobile-title">Conheça o Sentinel</h3><p>Aponte a câmera e descubra como transformar escuta em ação.</p></div>
+          <a className="contact-qr-link" href="/conheca/" target="_blank" rel="noopener noreferrer" aria-label="Abrir o site do Sentinel para celular">
+            <span className="contact-qr-frame"><img src="/images/qr-site-mobile.png" width="300" height="300" alt="QR code para acessar o site do Sentinel no celular" /></span>
+            <span className="contact-mobile-link">Acessar o site<ArrowUpRight size={15} aria-hidden="true" /></span>
+          </a>
+        </aside>
       </div>
       <div className="value-close">
         <span>Sentinel<span>.</span></span>
